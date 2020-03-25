@@ -5,6 +5,7 @@ import {
 
 import { combineReducers } from 'redux';
 
+// STATUS OF THE QUIZ
 function status(state = { 
     isStarted: false, 
     correctAnswers: 0
@@ -21,14 +22,11 @@ function status(state = {
     }
 }
 
-function questions(state = {
-    isFetching: false,
-    isInvalidated: false,
-    categories: [],
-    selectedCategory: '',
+// GAME SETTINGS
+function settings(state = {
+    selectedCategory: null,
     numberOfQuestions: 10,
     difficulty: 'easy',
-    questions: [],
 }, action) {
     switch (action.type) {
         case FETCH_QUESTIONS_REQUEST:
@@ -37,18 +35,6 @@ function questions(state = {
                 selectedCategory: action.category || state.category,
                 numberOfQuestions: action.numberOfQuestions || state.numberOfQuestions,
                 difficulty: action.difficulty || state.difficulty
-            });
-        case FETCH_QUESTIONS_SUCCESS:
-            return Object.assign({}, state, {
-                isFetching: false,
-                questions: action.questions
-            });
-        case FETCH_CATEGORY_REQUEST:
-            return Object.assign({}, state, { isFetching: true });
-        case FETCH_CATEGORY_SUCCESS:
-            return Object.assign({}, state, {
-                isFetching: false,
-                categories: action.categories
             });
         case SETTINGS_CHANGE:
             return Object.assign({}, state, {
@@ -61,7 +47,32 @@ function questions(state = {
     }
 }
 
+// DATA FROM SERVER
+function data(state = {
+    isFetching: false,
+    categories: [],
+    questions: [],
+}, action) {
+    switch (action.type) {
+        case FETCH_QUESTIONS_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                questions: action.questions
+            });
+        case FETCH_CATEGORY_REQUEST:
+            return Object.assign({}, state, { isFetching: true });
+        case FETCH_CATEGORY_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                categories: action.categories
+            });
+        default:
+            return state;
+    }
+}
+
 export const rootReducer = combineReducers({
     gameState: status, 
-    questionState: questions
+    serverData: data,
+    gameSettings: settings
 });
