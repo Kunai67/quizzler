@@ -1,15 +1,14 @@
 // REQUESTING QUESTIONS
 export const FETCH_QUESTIONS_REQUEST = "FETCH_QUESTIONS_REQUEST";
-export function requestQuestions(source) {
+export function requestQuestions() {
     return {
         type: FETCH_QUESTIONS_REQUEST,
-        source: source
     }
 }
 
 // RECEIVING QUESTIONS
 export const FETCH_QUESTIONS_SUCCESS = "FETCH_QUESTIONS_SUCCESS";
-export function receiveQuestions(source, data) {
+export function receiveQuestions(data) {
     return {
         type: FETCH_QUESTIONS_SUCCESS,
         questions: data
@@ -30,5 +29,14 @@ export const INCREMENT_CORRECT = "INCREMENT_CORRECT";
 export function incrementCorrect() {
     return {
         type: INCREMENT_CORRECT,
+    }
+}
+
+// CHANGE CATEGORY
+export const CHANGE_CATEGORY = "CHANGE_CATEGORY";
+export function changeCategory(categoryID) {
+    return {
+        type: CHANGE_CATEGORY,
+        category: categoryID
     }
 }

@@ -1,6 +1,6 @@
 import { 
     FETCH_QUESTIONS_SUCCESS, FETCH_QUESTIONS_REQUEST, 
-    UPDATE_QUIZ_STATUS, INCREMENT_CORRECT
+    UPDATE_QUIZ_STATUS, INCREMENT_CORRECT, CHANGE_CATEGORY
 } from '../actions';
 
 import { combineReducers } from 'redux';
@@ -24,20 +24,24 @@ function status(state = {
 function questions(state = {
     isFetching: false,
     isInvalidated: false,
-    source: '',
+    category: '',
     questions: [],
 }, action) {
     switch (action.type) {
         case FETCH_QUESTIONS_REQUEST:
             return Object.assign({}, state, {
                 isFetching: true,
-                source: action.source
             })
         case FETCH_QUESTIONS_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
                 questions: action.questions
             })
+        case CHANGE_CATEGORY:
+            return Object.assign({}, state, {
+                isFetching: true,
+                category: action.category
+            });
     
         default:
             return state;

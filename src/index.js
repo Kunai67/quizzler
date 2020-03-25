@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 // IMPORTS FOR TEST
-import { incrementCorrect, receiveQuestions, requestQuestions, updateStatus } from './redux/actions';
+import { incrementCorrect, receiveQuestions, requestQuestions, updateStatus, changeCategory } from './redux/actions';
 import { store } from './redux/store';
 
 // TEST
@@ -29,6 +29,9 @@ store.dispatch(requestQuestions("https://opentdb.com/api.php?amount=10"));
 
 console.log("Answered Correctly");
 store.dispatch(incrementCorrect());
+
+console.log("Change Category");
+store.dispatch(changeCategory(1));
 
 
 
