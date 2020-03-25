@@ -1,6 +1,6 @@
 import React from 'react';
 import { FullscreenContainer } from '../../components/containers';
-import { BoldButton } from '../../components/buttons';
+import { Button } from '../../components/buttons';
 import { MainHeading, SubHeading } from '../../components/headings';
 import { BG, PRIMARY, SECONDARY } from '../../res/color-palette';
 import styled from 'styled-components';
@@ -39,7 +39,7 @@ const StyledMainHeading = styled(MainHeading)`
     }
 `;
 
-const StyledBoldButton = styled(BoldButton)`
+const StyledButton = styled(Button)`
     margin: 0 1em;
 `;
 
@@ -47,7 +47,7 @@ function RedirectButton(props) {
     const history = useHistory();
 
     return (
-        <StyledBoldButton bg={props.bg} onClick={ () => history.push(props.to) }>{ props.children }</StyledBoldButton>
+        <StyledButton bg={props.bg} onClick={ () => history.push(props.to) }>{ props.children }</StyledButton>
     )
 }
 

@@ -66,8 +66,10 @@ export default function SettingsPage() {
                         <option value="">Difficult</option>
                     </select>
 
-                    <BoldButton bg={ BG } color={ BLACK }>Save</BoldButton>
-                    <BoldButton bg={ ACCENT }color={ BLACK }>Cancel</BoldButton>
+                    <div>
+                        <BoldButton bg={ BG } color={ BLACK }>Save</BoldButton>
+                        <BoldButton bg={ ACCENT }color={ BLACK }>Cancel</BoldButton>
+                    </div>
                 </FlexForm>
             </div>
         </MainContainer>

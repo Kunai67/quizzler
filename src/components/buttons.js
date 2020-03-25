@@ -18,11 +18,6 @@ const Button = styled.button`
     }
 `;
 
-const BoldButton = styled(Button)`
-    font-weight: bold;
-`;
-
 export {
-    Button,
-    BoldButton
+    Button
 }
