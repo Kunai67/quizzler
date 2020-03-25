@@ -5,12 +5,19 @@ import {
 
 import { combineReducers } from 'redux';
 
-function status(state = false, action) {
+function status(state = { 
+    isStarted: false, 
+    correctAnswers: 0
+}, action) {
     switch (action.type) {
         case UPDATE_QUIZ_STATUS:
-            return action.isStarted
+            return Object.assign({}, state, {
+                isStarted: action.isStarted
+            });
+        case INCREMENT_CORRECT:
+            return Object.assign({}, state, state.correctAnswers++);
         default:
-            return state
+            return state;
     }
 }
 
@@ -37,17 +44,7 @@ function questions(state = {
     }
 }
 
-function numberOfCorrectAns(state = 0, action) {
-    switch (action.type) {
-        case INCREMENT_CORRECT:
-            return ++state;
-        default:
-            return state;
-    }
-}
-
 export const rootReducer = combineReducers({
-    isStarted: status, 
-    questions, 
-    correctAnswers: numberOfCorrectAns
+    status, 
+    questions
 });
