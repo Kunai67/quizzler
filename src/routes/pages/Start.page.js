@@ -19,17 +19,12 @@ const WelcomeHeading = styled(SubHeading)`
     }
 `;
 
-const StyledMainHeading = styled(MainHeading)`
-    font-size: 12em;
-    margin-bottom: .25em;
-`;
-
 export default function StartPage() {
     return (
         <DefaultContainer bg={BG}>
             <div>
                 <WelcomeHeading color={PRIMARY}>Welcome to</WelcomeHeading>
-                <StyledMainHeading>Quizzler!</StyledMainHeading>
+                <MainHeading>Quizzler!</MainHeading>
                 <RedirectButton bg={ PRIMARY } to='/quiz'>Start Game</RedirectButton>
                 <RedirectButton bg={ SECONDARY } to='/settings'>Settings</RedirectButton>
             </div>

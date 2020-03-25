@@ -6,34 +6,46 @@ import { MainHeading, SubHeading } from '../../components/styled/headings';
 import { WHITE, BG, ACCENT, BLACK } from '../../res/color-palette';
 
 const StyledMainHeading = styled(MainHeading)`
-    font-size: 10em;
     margin-bottom: -0.25em;
-
-    @media screen and (max-width: 425px) {
-        font-size: 8em;
-    }
-
-    @media screen and (min-width: 1440px) {
-        font-size: 15em;
-    }
 `;
 
-const StyledSubHeading = styled(SubHeading)`
-    font-size: 4.5em;
-    margin-bottom: 1em;
+const FlexForm = styled.form`
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+`;
+
+const Label = styled.label`
+    font-size: 2.5em;
+    color: ${props => props.color ? props.color : WHITE};
+    margin-bottom: 0.25em;
 
     @media screen and (max-width: 425px) {
         font-size: 1.75em;
     }
 
     @media screen and (min-width: 1440px) {
-        font-size: 8em;
+        font-size: 5em;
     }
 `;
 
-const FlexForm = styled.form`
-    display: flex;
-    flex-flow: column wrap;
+const Select = styled.select`
+    padding: .75em .5em;
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    width: 50%;
+`;
+
+const Input = styled.input`
+    padding: 1em .5em;
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    width: 15%;
+    text-align: center;
+`;
+
+const Div = styled.div`
+    margin-top: 3em;
 `;
 
 export default function SettingsPage() {
@@ -41,29 +53,29 @@ export default function SettingsPage() {
         <DefaultContainer>
             <div>
                 <StyledMainHeading color={ WHITE }>Quizzler!</StyledMainHeading>
-                <StyledSubHeading color={ BG }>Settings</StyledSubHeading>
+                <SubHeading color={ BG }>Settings</SubHeading>
                 <FlexForm action="">
-                    <label htmlFor="">Category</label>
-                    <select name="" id="">
-                        <option>Sample 1</option>
-                        <option>Sample 2</option>
-                        <option>Sample 3</option>
-                    </select>
+                    <Label htmlFor="">Category</Label>
+                    <Select name="" id="">
+                        <option value="">Sample 1</option>
+                        <option value="">Sample 2</option>
+                        <option value="">Sample 3</option>
+                    </Select>
 
-                    <label htmlFor="">Number of Questions</label>
-                    <input type="number" name="" id="" value="3"/>
-
-                    <label htmlFor="">Difficulty</label>
-                    <select name="" id="">
+                    <Label htmlFor="">Difficulty</Label>
+                    <Select name="" id="">
                         <option value="">Easy</option>
                         <option value="">Medium</option>
                         <option value="">Difficult</option>
-                    </select>
+                    </Select>
 
-                    <div>
+                    <Label htmlFor="">Number of Questions</Label>
+                    <Input name="" id="" value="3"/>
+
+                    <Div>
                         <DefaultButton bg={ BG } color={ BLACK }>Save</DefaultButton>
                         <DefaultButton bg={ ACCENT }color={ BLACK }>Cancel</DefaultButton>
-                    </div>
+                    </Div>
                 </FlexForm>
             </div>
         </DefaultContainer>
