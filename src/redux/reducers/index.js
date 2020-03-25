@@ -1,6 +1,6 @@
 import { 
     FETCH_QUESTIONS_SUCCESS, FETCH_QUESTIONS_REQUEST, 
-    UPDATE_QUIZ_STATUS, INCREMENT_CORRECT, FETCH_CATEGORY_REQUEST, FETCH_CATEGORY_SUCCESS
+    UPDATE_QUIZ_STATUS, INCREMENT_CORRECT, FETCH_CATEGORY_REQUEST, FETCH_CATEGORY_SUCCESS, SETTINGS_CHANGE
 } from '../actions';
 
 import { combineReducers } from 'redux';
@@ -50,12 +50,18 @@ function questions(state = {
                 isFetching: false,
                 categories: action.categories
             });
+        case SETTINGS_CHANGE:
+            return Object.assign({}, state, {
+                selectedCategory: action.category,
+                numberOfQuestions: action.numberOfQuestions,
+                difficulty: action.difficulty
+            });
         default:
             return state;
     }
 }
 
 export const rootReducer = combineReducers({
-    status, 
-    questions
+    gameState: status, 
+    questionState: questions
 });

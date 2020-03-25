@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 // IMPORTS FOR TEST
-import { incrementCorrect, receiveQuestions, requestQuestions, updateStatus, changeCategory } from './redux/actions';
+import { incrementCorrect, fetchQuestions, updateStatus, changeSettings, fetchCategory } from './redux/actions';
 import { store } from './redux/store';
 
 // TEST
@@ -14,32 +14,28 @@ console.log(store.getState());
 
 const unsubscribe = store.subscribe(() => console.log(store.getState()));
 
-fetch('https://opentdb.com/api.php?amount=10')
-.then(res => res.json())
-.then(questions => {
-    console.log("Questions Received");
-    store.dispatch(receiveQuestions("https://opentdb.com/api.php?amount=10", questions.results));
-});
+store.dispatch(fetchCategory());
 
-console.log("Start Quiz");
-store.dispatch(updateStatus(true));
+// console.log("Start Quiz");
+// store.dispatch(updateStatus(true));
 
-console.log("Request Questions");
-store.dispatch(requestQuestions(2, 10, 'difficult'));
+// console.log("Request Questions");
+// store.dispatch(fetchQuestions(11, 10, 'easy'));
 
-console.log("Answered Correctly");
-store.dispatch(incrementCorrect());
+// console.log("Settings Changed");
+// store.dispatch(changeSettings(11, 20, "easy"));
 
-console.log("Change Category");
-store.dispatch(requestQuestions(1));
+// console.log("Answered Correctly");
+// store.dispatch(incrementCorrect());
 
-console.log("Change Number of Questions");
-store.dispatch(requestQuestions(null, 5, null));
+// console.log("Change Category");
+// store.dispatch(fetchQuestions(1));
 
-console.log("Change Difficulty");
-store.dispatch(requestQuestions(null, null, "medium"));
+// console.log("Change Number of Questions");
+// store.dispatch(fetchQuestions(null, 5, null));
 
-
+// console.log("Change Difficulty");
+// store.dispatch(fetchQuestions(null, null, "easy"));
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
