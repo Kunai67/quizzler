@@ -1,12 +1,5 @@
-// ACTION TYPES
+// REQUESTING QUESTIONS
 export const FETCH_QUESTIONS_REQUEST = "FETCH_QUESTIONS_REQUEST";
-export const FETCH_QUESTIONS_SUCCESS = "FETCH_QUESTIONS_SUCCESS";
-
-export const UPDATE_QUIZ_STATUS = "UPDATE_QUIZ_STATUS";
-
-export const MARK_ANSWER = "MARK_ANSWER";
-
-// ACTION CREATORS
 export function requestQuestions(source) {
     return {
         type: FETCH_QUESTIONS_REQUEST,
@@ -14,6 +7,8 @@ export function requestQuestions(source) {
     }
 }
 
+// RECEIVING QUESTIONS
+export const FETCH_QUESTIONS_SUCCESS = "FETCH_QUESTIONS_SUCCESS";
 export function receiveQuestions(source, data) {
     return {
         type: FETCH_QUESTIONS_SUCCESS,
@@ -21,6 +16,8 @@ export function receiveQuestions(source, data) {
     }
 }
 
+// WHETHER QUIZ STARTED OR ENDED
+export const UPDATE_QUIZ_STATUS = "UPDATE_QUIZ_STATUS";
 export function updateStatus(isStarted) {
     return {
         type: UPDATE_QUIZ_STATUS,
@@ -28,9 +25,10 @@ export function updateStatus(isStarted) {
     }
 }
 
-export function markAnswer(isCorrect) {
+// INCREMENT ON CORRECT ANSWER
+export const INCREMENT_CORRECT = "INCREMENT_CORRECT";
+export function incrementCorrect() {
     return {
-        type: MARK_ANSWER,
-        isCorrect: isCorrect
+        type: INCREMENT_CORRECT,
     }
 }

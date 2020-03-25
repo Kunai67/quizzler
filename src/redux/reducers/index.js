@@ -1,6 +1,6 @@
 import { 
     FETCH_QUESTIONS_SUCCESS, FETCH_QUESTIONS_REQUEST, 
-    UPDATE_QUIZ_STATUS, MARK_ANSWER
+    UPDATE_QUIZ_STATUS, INCREMENT_CORRECT
 } from '../actions';
 
 import { combineReducers } from 'redux';
@@ -37,11 +37,10 @@ function questions(state = {
     }
 }
 
-function answerStatus(state = false, action) {
+function numberOfCorrectAns(state = 0, action) {
     switch (action.type) {
-        case MARK_ANSWER:
-            return action.isCorrect;
-    
+        case INCREMENT_CORRECT:
+            return ++state;
         default:
             return state;
     }
@@ -50,5 +49,5 @@ function answerStatus(state = false, action) {
 export const rootReducer = combineReducers({
     isStarted: status, 
     questions, 
-    isCorrect: answerStatus
+    correctAnswers: numberOfCorrectAns
 });
