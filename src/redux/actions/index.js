@@ -1,11 +1,8 @@
 // REQUESTING QUESTIONS
 const FETCH_QUESTIONS_REQUEST = "FETCH_QUESTIONS_REQUEST";
-function requestQuestions(category, numberOfQuestions, difficulty) {
+function requestQuestions() {
     return {
-        type: FETCH_QUESTIONS_REQUEST,
-        category,
-        numberOfQuestions,
-        difficulty
+        type: FETCH_QUESTIONS_REQUEST
     }
 }
 
@@ -21,7 +18,7 @@ function receiveQuestions(data) {
 // FETCHING OF QUESTIONS
 function fetchQuestions(category, numberOfQuestions, difficulty) {
     return function (dispatch) {
-        dispatch(requestQuestions(category, numberOfQuestions, difficulty));
+        dispatch(requestQuestions());
 
         return fetch(`https://opentdb.com/api.php?amount=${numberOfQuestions}&category=${category}&difficulty=${difficulty}`)
                 .then(res => res.json())

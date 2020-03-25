@@ -9,12 +9,13 @@ import { incrementCorrect, fetchQuestions, updateStatus, changeSettings, fetchCa
 import { store } from './redux/store';
 
 // TEST
-console.log("Default State");
-console.log(store.getState());
+// console.log("Default State");
+// console.log(store.getState());
 
 const unsubscribe = store.subscribe(() => console.log(store.getState()));
 
 store.dispatch(fetchCategory());
+store.dispatch(fetchQuestions());
 
 // console.log("Start Quiz");
 // store.dispatch(updateStatus(true));

@@ -29,13 +29,6 @@ function settings(state = {
     difficulty: 'easy',
 }, action) {
     switch (action.type) {
-        case FETCH_QUESTIONS_REQUEST:
-            return Object.assign({}, state, {
-                isFetching: true,
-                selectedCategory: action.category || state.category,
-                numberOfQuestions: action.numberOfQuestions || state.numberOfQuestions,
-                difficulty: action.difficulty || state.difficulty
-            });
         case SETTINGS_CHANGE:
             return Object.assign({}, state, {
                 selectedCategory: action.category,
@@ -54,6 +47,10 @@ function data(state = {
     questions: [],
 }, action) {
     switch (action.type) {
+        case FETCH_QUESTIONS_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+            });
         case FETCH_QUESTIONS_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
