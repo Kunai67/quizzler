@@ -34,3 +34,15 @@ export function incrementCorrect() {
         type: INCREMENT_CORRECT,
     }
 }
+
+// REQUEST CATEGORY
+export const FETCH_CATEGORY_REQUEST = "FETCH_CATEGORY_REQUEST";
+
+// RECEIVE CATEGORY
+export const FETCH_CATEGORY_SUCCESS = "FETCH_CATEGORY_SUCCESS";
+export function receiveCategory(data) {
+    return {
+        type: FETCH_CATEGORY_SUCCESS,
+        categories: data
+    }
+}
