@@ -1,15 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FullscreenContainer } from '../../components/containers';
-import { BoldButton } from '../../components/buttons';
-import { MainHeading, SubHeading } from '../../components/headings';
+import { DefaultContainer } from '../../components/styled/containers';
+import { DefaultButton } from '../../components/styled/buttons';
+import { MainHeading, SubHeading } from '../../components/styled/headings';
 import { WHITE, BG, ACCENT, BLACK } from '../../res/color-palette';
-
-const MainContainer = styled(FullscreenContainer)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
 
 const StyledMainHeading = styled(MainHeading)`
     font-size: 10em;
@@ -44,12 +38,12 @@ const FlexForm = styled.form`
 
 export default function SettingsPage() {
     return (
-        <MainContainer>
+        <DefaultContainer>
             <div>
                 <StyledMainHeading color={ WHITE }>Quizzler!</StyledMainHeading>
                 <StyledSubHeading color={ BG }>Settings</StyledSubHeading>
                 <FlexForm action="">
-                    <label htmlFor="">Select Quiz Source</label>
+                    <label htmlFor="">Category</label>
                     <select name="" id="">
                         <option>Sample 1</option>
                         <option>Sample 2</option>
@@ -67,11 +61,11 @@ export default function SettingsPage() {
                     </select>
 
                     <div>
-                        <BoldButton bg={ BG } color={ BLACK }>Save</BoldButton>
-                        <BoldButton bg={ ACCENT }color={ BLACK }>Cancel</BoldButton>
+                        <DefaultButton bg={ BG } color={ BLACK }>Save</DefaultButton>
+                        <DefaultButton bg={ ACCENT }color={ BLACK }>Cancel</DefaultButton>
                     </div>
                 </FlexForm>
             </div>
-        </MainContainer>
+        </DefaultContainer>
     )
 }

@@ -1,13 +1,15 @@
 import styled from 'styled-components';
-import { PRIMARY, WHITE } from '../res/color-palette';
+import { PRIMARY, WHITE } from '../../res/color-palette';
 
-const Button = styled.button`
+const DefaultButton = styled.button`
     padding: 1em 2em;
-    background: ${props => props.bg ? props.bg : PRIMARY};
+    background: ${ props => props.bg ? props.bg : PRIMARY };
     border: 0;
     font-size: 2em;
-    color: ${props => props.color ? props.color : WHITE};
+    color: ${ props => props.color ? props.color : WHITE };
     font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    margin: 0 1em;
 
     @media screen and (max-width: 425px) {
         font-size: 1.5em;
@@ -19,5 +21,5 @@ const Button = styled.button`
 `;
 
 export {
-    Button
+    DefaultButton
 }
