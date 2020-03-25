@@ -8,6 +8,14 @@ const Button = styled.button`
     font-size: 2em;
     color: ${props => props.color ? props.color : WHITE};
     font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    @media screen and (max-width: 425px) {
+        font-size: 1.5em;
+    }
+
+    @media screen and (min-width: 1440px) {
+        font-size: 3em;
+    }
 `;
 
 const BoldButton = styled(Button)`

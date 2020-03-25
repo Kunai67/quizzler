@@ -5,6 +5,8 @@ import { MainHeading, SubHeading } from '../../components/headings';
 import { BG, PRIMARY, SECONDARY } from '../../res/color-palette';
 import styled from 'styled-components';
 
+import { useHistory } from 'react-router-dom';
+
 const MainContainer = styled(FullscreenContainer)`
     display: flex;
     justify-content: center;
@@ -13,6 +15,7 @@ const MainContainer = styled(FullscreenContainer)`
 
 const WelcomeHeading = styled(SubHeading)`
     margin-bottom: -1em;
+    font-weight: normal;
     font-size: 3em;
 
     @media screen and (max-width: 425px) {
@@ -38,15 +41,15 @@ const StyledMainHeading = styled(MainHeading)`
 
 const StyledBoldButton = styled(BoldButton)`
     margin: 0 1em;
-
-    @media screen and (max-width: 425px) {
-        font-size: 1.5em;
-    }
-
-    @media screen and (min-width: 1440px) {
-        font-size: 3em;
-    }
 `;
+
+function RedirectButton(props) {
+    const history = useHistory();
+
+    return (
+        <StyledBoldButton bg={props.bg} onClick={ () => history.push(props.to) }>{ props.children }</StyledBoldButton>
+    )
+}
 
 export default function StartPage() {
     return (
@@ -54,8 +57,8 @@ export default function StartPage() {
             <div>
                 <WelcomeHeading color={PRIMARY}>Welcome to</WelcomeHeading>
                 <StyledMainHeading>Quizzler!</StyledMainHeading>
-                <StyledBoldButton bg={PRIMARY}>Start Game</StyledBoldButton>
-                <StyledBoldButton bg={SECONDARY}>Settings</StyledBoldButton>
+                <RedirectButton bg={ PRIMARY } to='/quiz'>Start Game</RedirectButton>
+                <RedirectButton bg={ SECONDARY } to='/settings'>Settings</RedirectButton>
             </div>
         </MainContainer>
     )
