@@ -1,8 +1,11 @@
 // REQUESTING QUESTIONS
 export const FETCH_QUESTIONS_REQUEST = "FETCH_QUESTIONS_REQUEST";
-export function requestQuestions() {
+export function requestQuestions(category, numberOfQuestions, difficulty) {
     return {
         type: FETCH_QUESTIONS_REQUEST,
+        category,
+        numberOfQuestions,
+        difficulty
     }
 }
 
@@ -29,14 +32,5 @@ export const INCREMENT_CORRECT = "INCREMENT_CORRECT";
 export function incrementCorrect() {
     return {
         type: INCREMENT_CORRECT,
-    }
-}
-
-// CHANGE CATEGORY
-export const CHANGE_CATEGORY = "CHANGE_CATEGORY";
-export function changeCategory(categoryID) {
-    return {
-        type: CHANGE_CATEGORY,
-        category: categoryID
     }
 }

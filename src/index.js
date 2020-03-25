@@ -25,13 +25,19 @@ console.log("Start Quiz");
 store.dispatch(updateStatus(true));
 
 console.log("Request Questions");
-store.dispatch(requestQuestions("https://opentdb.com/api.php?amount=10"));
+store.dispatch(requestQuestions(2, 10, 'difficult'));
 
 console.log("Answered Correctly");
 store.dispatch(incrementCorrect());
 
 console.log("Change Category");
-store.dispatch(changeCategory(1));
+store.dispatch(requestQuestions(1));
+
+console.log("Change Number of Questions");
+store.dispatch(requestQuestions(null, 5, null));
+
+console.log("Change Difficulty");
+store.dispatch(requestQuestions(null, null, "medium"));
 
 
 
