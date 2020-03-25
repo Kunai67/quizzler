@@ -2,9 +2,10 @@ import { createStore, applyMiddleware } from 'redux';
 import { rootReducer } from '../reducers';
 
 // FIX APPLY MIDDLEWARE AND THUNK IMPORT
-import { thunk } from 'redux-thunk';
+import thunk from 'redux-thunk';
 
-const store = createStore(rootReducer, applyMiddleware({ thunk }));
+export const store = createStore(rootReducer, applyMiddleware(thunk));
+
 
 // const store = {
 //     isStarted: false,
@@ -18,3 +19,7 @@ const store = createStore(rootReducer, applyMiddleware({ thunk }));
 //         }
 //     ]
 // }
+
+
+
+

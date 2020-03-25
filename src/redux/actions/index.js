@@ -14,10 +14,10 @@ export function requestQuestions(source) {
     }
 }
 
-export function receiveQuestions(source, json) {
+export function receiveQuestions(source, data) {
     return {
         type: FETCH_QUESTIONS_SUCCESS,
-        // questions: QUESTION LOGIC HERE
+        questions: data
     }
 }
 

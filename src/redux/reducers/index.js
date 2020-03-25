@@ -47,4 +47,8 @@ function answerStatus(state = false, action) {
     }
 }
 
-export const rootReducer = combineReducers(status, questions, answerStatus);
+export const rootReducer = combineReducers({
+    isStarted: status, 
+    questions, 
+    isCorrect: answerStatus
+});

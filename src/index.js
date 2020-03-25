@@ -4,9 +4,33 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+// IMPORTS FOR TEST
+import { markAnswer, receiveQuestions, requestQuestions, updateStatus } from './redux/actions';
+import { store } from './redux/store';
+
+// TEST
+console.log("Default State");
+console.log(store.getState());
+
+const unsubscribe = store.subscribe(() => console.log(store.getState()));
+
 fetch('https://opentdb.com/api.php?amount=10')
 .then(res => res.json())
-.then(questions => console.log(questions));
+.then(questions => {
+    console.log("Questions Received");
+    store.dispatch(receiveQuestions("https://opentdb.com/api.php?amount=10", questions.results));
+});
+
+console.log("Start Quiz");
+store.dispatch(updateStatus(true));
+
+console.log("Request Questions");
+store.dispatch(requestQuestions("https://opentdb.com/api.php?amount=10"));
+
+console.log("Answered Correctly");
+store.dispatch(markAnswer(true));
+
+
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
