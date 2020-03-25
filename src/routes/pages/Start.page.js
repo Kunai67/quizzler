@@ -1,8 +1,8 @@
 import React from 'react';
 import { FullscreenContainer } from '../../components/containers';
-import { Button, BoldButton } from '../../components/buttons';
+import { BoldButton } from '../../components/buttons';
 import { MainHeading, SubHeading } from '../../components/headings';
-import { ACCENT, BG, BLACK, WHITE, PRIMARY, SECONDARY } from '../../res/color-palette';
+import { BG, PRIMARY, SECONDARY } from '../../res/color-palette';
 import styled from 'styled-components';
 
 const MainContainer = styled(FullscreenContainer)`
@@ -53,7 +53,7 @@ export default function StartPage() {
         <MainContainer bg={BG}>
             <div>
                 <WelcomeHeading color={PRIMARY}>Welcome to</WelcomeHeading>
-                <StyledMainHeading>Quizzler</StyledMainHeading>
+                <StyledMainHeading>Quizzler!</StyledMainHeading>
                 <StyledBoldButton bg={PRIMARY}>Start Game</StyledBoldButton>
                 <StyledBoldButton bg={SECONDARY}>Settings</StyledBoldButton>
             </div>
