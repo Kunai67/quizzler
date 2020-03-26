@@ -8,7 +8,7 @@ const MainHeading = styled.h1`
     margin-bottom: .25em;
 
     @media screen and (min-width: 1440px) {
-        font-size: 18em;
+        font-size: 15em;
     }
 
     @media screen and (max-width: 425px) {
@@ -23,11 +23,11 @@ const SubHeading = styled.p`
     margin-bottom: 1em;
 
     @media screen and (max-width: 425px) {
-        font-size: 1.75em;
+        font-size: 3em;
     }
 
     @media screen and (min-width: 1440px) {
-        font-size: 8em;
+        font-size: 7em;
     }
 `;
 
