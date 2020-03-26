@@ -1,0 +1,28 @@
+import { store } from './redux/store';
+
+// IMPORTS FOR TEST
+import { incrementCorrect, fetchQuestions, updateStatus, changeSettings, fetchCategory } from './redux/actions';
+
+// TEST
+// console.log("Default State");
+// console.log(store.getState());
+
+const unsubscribe = store.subscribe(() => console.log(store.getState()));
+
+store.dispatch(fetchCategory());
+store.dispatch(fetchQuestions());
+
+console.log("Start Quiz");
+store.dispatch(updateStatus(true));
+
+console.log("Answered Correctly");
+store.dispatch(incrementCorrect());
+
+console.log("Answered Correctly");
+store.dispatch(incrementCorrect());
+
+console.log("Answered Correctly");
+store.dispatch(incrementCorrect());
+
+console.log("Settings Changed");
+store.dispatch(changeSettings(11, 20, "easy"));
