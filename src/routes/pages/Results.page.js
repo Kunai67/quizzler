@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { DefaultContainer } from '../../components/styled/containers';
 import { MainHeading, SubHeading } from '../../components/styled/headings';
-import { WHITE, BG, PRIMARY } from '../../res/color-palette';
+import { WHITE, BG } from '../../res/color-palette';
 import FBIconLink from '../../res/svg/facebook.svg';
 import TwitterIconLink from '../../res/svg/twitter.svg';
 import IGIconLink from '../../res/svg/instagram.svg';
@@ -59,7 +59,7 @@ const SocialIcon = styled.img`
 
 export default function ResultsPage() {
     return (
-        <DefaultContainer bg={ PRIMARY }>
+        <DefaultContainer>
             <div>
                 <StyledMainHeading color={ WHITE }>Quizzler!</StyledMainHeading>
                 <SubHeading color={ BG }>Results</SubHeading>
