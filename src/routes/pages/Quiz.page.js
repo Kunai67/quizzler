@@ -6,15 +6,16 @@ import { DefaultButton } from '../../components/styled/buttons';
 import CogsLink from '../../res/svg/cogs.svg';
 import CheckLink from '../../res/svg/checkmark-circle.svg';
 import QuestionLink from '../../res/svg/question-circle.svg';
+import BookLink from '../../res/svg/book.svg';
 
 const Header = styled.div`
     background: ${ BLACK };
     padding: 2em;
     display: flex;
-    justify-content: space-between;
 
-    @media screen and (max-width: 425px) {
-        display: block;        
+    @media screen and (max-width: 768px) {
+        flex-flow: column wrap;
+        padding: 2em 1em;        
     }
 `;
 
@@ -22,33 +23,47 @@ const HeaderP = styled.p`
     font-size: 4em;
     color: ${ WHITE };
 
-    @media screen and (max-width: 425px) {
+    @media screen and (max-width: 768px) {
         font-size: 2em;
     }
 `;
 
 const HeaderMainP = styled(HeaderP)`
     font-weight: bold;
-    @media screen and (max-width: 425px) {
-        text-align: center;
-        margin: 1em 0;
-        font-size: 3em;
+    
+    @media screen and (max-width: 768px) {
+        font-size: 2.5em;
     }
 `;
 
 const Div = styled.div`
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 
-    @media screen and (max-width: 425px) {
-        justify-content: start;        
+    @media screen and (min-width: 600px) and (max-width: 768px) {
+        justify-content: space-around;        
+    }
+`;
+
+const CategoryDiv = styled(Div)`
+    flex-grow: 1;
+    justify-content: start;
+
+    @media screen and (max-width: 768px) {
+        justify-content: center;        
+        margin-bottom: 2em;
     }
 `;
 
 const Icon = styled.img`
     width: 4em;
     margin: 0 2em;
+
+    @media screen and (max-width: 768px) {
+        width: 3em;
+        margin: 0 1em;        
+    }
 `;
 
 const BackgroundContainer = styled.div`
@@ -59,33 +74,52 @@ const BackgroundContainer = styled.div`
 const QuizContainer = styled(DefaultContainer)`
     min-height: auto;
     flex-flow: column wrap;
+    height: 80%;
 `;
 
 const Question = styled.p`
-    font-size: 7em;
+    font-size: 5em;
     color: ${ PRIMARY };
-    margin: 10em 0;
+    margin: 1em 0.5em 2em 0.5em;
+
+    @media screen and (max-width: 768px) {
+        font-size: 3em;
+    }
+
+    @media screen and (min-width: 1441px) {
+        font-size: 7em;
+    }
 `;
 
 const ChoiceContainer = styled.div`
-    width: 60%;
-    margin: 0 auto 5em auto;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+
+    @media screen and (max-width: 768px) {
+        justify-content: center;
+    }
 `;
 
 const ChoiceButton = styled(DefaultButton)`
     flex-basis: 40%;
-    margin-bottom: 5em;
-    padding: 5em;
-    font-size: 3em;
+    margin-bottom: 1em;
+
+    @media screen and (max-width: 600px) {
+        padding: 1em;
+        flex-basis: 80%;
+    }
 `;
 
 export default function QuizPage() {
     return (
         <BackgroundContainer>
             <Header>
+                <CategoryDiv>
+                    <Icon src={ BookLink } alt='Category: '/>
+                    <HeaderMainP>General Knowledge</HeaderMainP>    
+                </CategoryDiv>
+
                 <Div>
                     <Div>
                         <Icon src={ QuestionLink } alt='Question: '/>
@@ -95,12 +129,11 @@ export default function QuizPage() {
                         <Icon src={ CogsLink } alt='Difficulty: '/>
                         <HeaderP>Easy</HeaderP>
                     </Div>
-                </Div>
-                <HeaderMainP>Category: General Knowledge</HeaderMainP>                    
-                <Div>
-                    <Icon src={ CheckLink } alt='Question: '/>
-                    <HeaderP>0 / 10</HeaderP>
-                </Div>
+                    <Div>
+                        <Icon src={ CheckLink } alt='Question: '/>
+                        <HeaderP>0 / 10</HeaderP>
+                    </Div>
+                </Div>                    
             </Header>
             <QuizContainer bg={ BG }>
                 <Question>This is a sample question. What is the answer?</Question>
