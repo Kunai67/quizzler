@@ -6,6 +6,6 @@ export function RedirectButton(props) {
     const history = useHistory();
 
     return (
-        <DefaultButton bg={props.bg} onClick={ () => history.push(props.to) }>{ props.children }</DefaultButton>
+        <DefaultButton bg={props.bg} color={ props.color } onClick={ () => history.push(props.to) }>{ props.children }</DefaultButton>
     )
 }

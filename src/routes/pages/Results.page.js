@@ -6,6 +6,7 @@ import { WHITE, BG } from '../../res/color-palette';
 import FBIconLink from '../../res/svg/facebook.svg';
 import TwitterIconLink from '../../res/svg/twitter.svg';
 import IGIconLink from '../../res/svg/instagram.svg';
+import { Link } from 'react-router-dom';
 
 const StyledMainHeading = styled(MainHeading)`
     margin-bottom: -0.25em;
@@ -33,7 +34,6 @@ const ResultSummary = styled.h2`
     color: ${ WHITE };
     text-transform: uppercase;
     letter-spacing: 1.2px;
-    margin-bottom: .5em;
 
     @media screen and (max-width: 425px) {
         font-size: 4em;
@@ -45,7 +45,6 @@ const ResultSummary = styled.h2`
 `;
 
 const SocialContainer = styled.div`
-    padding: 3em;
     border-radius: 20px;
     display: flex;
     justify-content: space-around;
@@ -55,6 +54,22 @@ const SocialContainer = styled.div`
 
 const SocialIcon = styled.img`
     width: 5em;
+    margin: 0 1em;
+`;
+
+const HomeLink = styled(Link)`
+    font-size: 2em;
+    display: block;
+    margin-bottom: 1.5em;
+    color: ${props => props.color ? props.color : BG};
+
+    @media screen and (max-width: 425px) {
+        font-size: 2em;
+    }
+
+    @media screen and (min-width: 1440px) {
+        font-size: 4em;
+    }
 `;
 
 export default function ResultsPage() {
@@ -73,6 +88,7 @@ export default function ResultsPage() {
                 </Div>
 
                 <ResultSummary>You Passed! Congrats!</ResultSummary>
+                <HomeLink to="/">Play Again?</HomeLink>
 
                 <P>Share on:</P>
                 <SocialContainer>
@@ -80,6 +96,8 @@ export default function ResultsPage() {
                     <SocialIcon src={TwitterIconLink} alt="Twitter"/>
                     <SocialIcon src={IGIconLink} alt="Instagram"/>
                 </SocialContainer>
+
+                
             </div>
         </DefaultContainer>
     )

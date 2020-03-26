@@ -3,10 +3,14 @@ import styled from 'styled-components';
 import { WHITE, BG, PRIMARY, BLACK } from '../../res/color-palette';
 import { DefaultContainer } from '../../components/styled/containers';
 import { DefaultButton } from '../../components/styled/buttons';
+import { Link } from 'react-router-dom';
+
+// IMAGE LINKS
 import CogsLink from '../../res/svg/cogs.svg';
 import CheckLink from '../../res/svg/checkmark-circle.svg';
 import QuestionLink from '../../res/svg/question-circle.svg';
 import BookLink from '../../res/svg/book.svg';
+import ExitLink from '../../res/svg/home.svg';
 
 const Header = styled.div`
     background: ${ BLACK };
@@ -111,6 +115,13 @@ const ChoiceButton = styled(DefaultButton)`
     }
 `;
 
+const ExitButton = styled(Link)`
+    margin-left: 1em;
+    background: white;
+    padding: 1em 0;
+    border-radius: 20px;
+`;
+
 export default function QuizPage() {
     return (
         <BackgroundContainer>
@@ -132,6 +143,9 @@ export default function QuizPage() {
                     <Div>
                         <Icon src={ CheckLink } alt='Question: '/>
                         <HeaderP>0 / 10</HeaderP>
+                    </Div>
+                    <Div>
+                        <ExitButton to="/"><Icon src={ ExitLink } alt='Exit'/></ExitButton>
                     </Div>
                 </Div>                    
             </Header>

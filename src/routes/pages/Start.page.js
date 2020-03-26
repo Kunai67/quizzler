@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { DefaultContainer } from '../../components/styled/containers';
 import { MainHeading, SubHeading } from '../../components/styled/headings';
 import { BG, PRIMARY, SECONDARY } from '../../res/color-palette';
-import { RedirectButton } from '../../components/model/RedirectButton';
+import { RedirectButton } from '../../components/functional/RedirectButton';
 
 const WelcomeHeading = styled(SubHeading)`
     margin-bottom: -1em;

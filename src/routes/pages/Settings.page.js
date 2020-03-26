@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { DefaultContainer } from '../../components/styled/containers';
 import { DefaultButton } from '../../components/styled/buttons';
+import { RedirectButton } from '../../components/functional/RedirectButton';
 import { MainHeading, SubHeading } from '../../components/styled/headings';
 import { WHITE, BG, ACCENT, BLACK } from '../../res/color-palette';
 
@@ -34,6 +35,8 @@ const Select = styled.select`
     font-size: 1.5em;
     margin-bottom: 1em;
     width: 50%;
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: ${ BLACK };
 `;
 
 const Input = styled.input`
@@ -42,6 +45,8 @@ const Input = styled.input`
     margin-bottom: 1em;
     width: 15%;
     text-align: center;
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: ${ BLACK };
 `;
 
 const Div = styled.div`
@@ -74,7 +79,7 @@ export default function SettingsPage() {
 
                     <Div>
                         <DefaultButton bg={ BG } color={ BLACK }>Save</DefaultButton>
-                        <DefaultButton bg={ ACCENT }color={ BLACK }>Cancel</DefaultButton>
+                        <RedirectButton to="/" bg={ ACCENT } color={ BLACK }>Cancel</RedirectButton>
                     </Div>
                 </FlexForm>
             </div>

@@ -5,6 +5,7 @@ const DefaultButton = styled.button`
     padding: 1em 2em;
     background: ${ props => props.bg ? props.bg : PRIMARY };
     border: 0;
+    border-radius: 20px;
     font-size: 2em;
     color: ${ props => props.color ? props.color : WHITE };
     font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
