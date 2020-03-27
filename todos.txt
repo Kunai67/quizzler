@@ -1,7 +1,9 @@
 1. Quiz Page Functionality
-- Loading of Questions
 - Loader
 - Add timer
+
+DONE:
+- Loading of Questions
 - Produce Buttons based on number of choices
 - Increment number of correct answers based on answer
 - Mount new question after answering

@@ -23,7 +23,6 @@ function fetchQuestions(category, numberOfQuestions, difficulty) {
         return fetch(`https://opentdb.com/api.php?category=${category}&amount=${numberOfQuestions}&difficulty=${difficulty}`)
                 .then(res => res.json())
                 .then(questions => {
-                    console.log(questions);
                     dispatch(receiveQuestions(questions.results));
                 });
     }
@@ -53,11 +52,19 @@ function updateStatus(isStarted) {
     }
 }
 
-// INCREMENT ON CORRECT ANSWER
+// MARK CORRECT ANSWER
 const MARK_CORRECT = "MARK_CORRECT";
 function markCorrect() {
     return {
         type: MARK_CORRECT,
+    }
+}
+
+// MARK WRONG ANSWER
+const MARK_WRONG = "MARK_WRONG";
+function markWrong() {
+    return {
+        type: MARK_WRONG,
     }
 }
 
@@ -97,10 +104,12 @@ export {
     SETTINGS_CHANGE,
     UPDATE_QUIZ_STATUS,
     MARK_CORRECT,
+    MARK_WRONG,
 
     fetchQuestions,
     fetchCategory,
     markCorrect,
+    markWrong,
     updateStatus,
     changeSettings
 }

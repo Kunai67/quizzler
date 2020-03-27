@@ -1,6 +1,7 @@
 import { 
     FETCH_QUESTIONS_SUCCESS, FETCH_QUESTIONS_REQUEST, 
-    UPDATE_QUIZ_STATUS, MARK_CORRECT, FETCH_CATEGORY_REQUEST, FETCH_CATEGORY_SUCCESS, SETTINGS_CHANGE
+    UPDATE_QUIZ_STATUS, MARK_CORRECT, MARK_WRONG, 
+    FETCH_CATEGORY_REQUEST, FETCH_CATEGORY_SUCCESS, SETTINGS_CHANGE
 } from '../actions';
 
 import { combineReducers } from 'redux';
@@ -18,6 +19,8 @@ function status(state = {
             });
         case MARK_CORRECT:
             return Object.assign({}, state, state.correctAnswers++, state.questionPointer++);
+        case MARK_WRONG:
+            return Object.assign({}, state, state.questionPointer++);
         default:
             return state;
     }

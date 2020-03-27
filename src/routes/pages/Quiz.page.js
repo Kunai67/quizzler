@@ -14,7 +14,7 @@ import ExitLink from '../../res/svg/home.svg';
 
 // REDUX IMPORTS
 import { connect } from 'react-redux';
-import { markCorrect } from '../../redux/actions';
+import { markCorrect, markWrong } from '../../redux/actions';
 
 const Header = styled.div`
     background: ${ BLACK };
@@ -126,6 +126,14 @@ const ExitButton = styled(Link)`
     border-radius: 20px;
 `;
 
+const BackToHome = styled(Link)`
+    flex-grow: 1;
+    color: ${ BG };
+    display: inline-block;
+    margin-top: 1em;
+    font-size: 2em;
+`;
+
 // HELPER FUNCTION TO DECODE HTML ELEMENTS FROM THE JSON
 function decodeHtml(html) {
     var txt = document.createElement("textarea");
@@ -171,7 +179,13 @@ class QuizPage extends React.Component {
         if (e.target.innerText === this.props.question.correct_answer) {
             this.props.markCorrect();
         } else {
-            console.log("Wrong");
+            this.props.markWrong();
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.id > this.props.numberOfQuestions) {
+            // REDIRECT TO RESULTS PAGE
         }
     }
     
@@ -218,7 +232,10 @@ class QuizPage extends React.Component {
         } else {
             return (
                 <DefaultContainer>
-                    <HeaderMainP>Looks like you came here directly.</HeaderMainP>
+                    <div>
+                        <HeaderMainP>Looks like you came here directly.</HeaderMainP>
+                        <BackToHome to="/">Back to Home</BackToHome>
+                    </div>
                 </DefaultContainer>
             )
         }
@@ -236,4 +253,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { markCorrect })(QuizPage);
+export default connect(mapStateToProps, { markCorrect, markWrong })(QuizPage);
