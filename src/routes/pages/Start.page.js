@@ -1,9 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+
+// IMPORTING COMPONENTS
 import { DefaultContainer } from '../../components/styled/containers';
 import { MainHeading, SubHeading } from '../../components/styled/headings';
 import { BG, PRIMARY, SECONDARY } from '../../res/color-palette';
 import { RedirectButton } from '../../components/functional/RedirectButton';
+
+// REACT REDUX IMPORTS
+import { updateStatus } from '../../redux/actions';
+import { connect } from 'react-redux';
 
 const WelcomeHeading = styled(SubHeading)`
     margin-bottom: -1em;
@@ -19,15 +25,33 @@ const WelcomeHeading = styled(SubHeading)`
     }
 `;
 
-export default function StartPage() {
-    return (
-        <DefaultContainer bg={BG}>
-            <div>
-                <WelcomeHeading color={PRIMARY}>Welcome to</WelcomeHeading>
-                <MainHeading>Quizzler!</MainHeading>
-                <RedirectButton bg={ PRIMARY } to='/quiz'>Start Game</RedirectButton>
-                <RedirectButton bg={ SECONDARY } to='/settings'>Settings</RedirectButton>
-            </div>
-        </DefaultContainer>
-    )
+class StartPage extends React.Component {
+    constructor(props) {
+        super(props)
+    
+        this.handleStart = this.handleStart.bind(this);
+    }
+
+    handleStart() {
+        this.props.updateStatus(true);
+    }    
+
+    componentDidMount() {
+        
+    }
+
+    render() {
+        return (
+            <DefaultContainer bg={BG}>
+                <div>
+                    <WelcomeHeading color={PRIMARY}>Welcome to</WelcomeHeading>
+                    <MainHeading>Quizzler!</MainHeading>
+                    <RedirectButton bg={ PRIMARY } to='/quiz' onClick={ this.handleStart }>Start Game</RedirectButton>
+                    <RedirectButton bg={ SECONDARY } to='/settings'>Settings</RedirectButton>
+                </div>
+            </DefaultContainer>
+        )
+    }
 }
+
+export default connect(null, { updateStatus })(StartPage);
