@@ -1,0 +1,24 @@
+1. Quiz Page Functionality
+- Loading of Questions
+- Loader
+- Add timer
+- Produce Buttons based on number of choices
+- Increment number of correct answers based on answer
+- Mount new question after answering
+- Update view from State
+
+2. Results Page
+- Get Number of Questions
+- Get Finish Time
+- Get Correct Answers and Number of Questions
+- Determine whether pass or failed
+- Share links
+
+3. Settings Page
+- Get Category from State
+- Change Category to State
+- Change Difficulty
+- Change Number of Questions
+
+4. Redux Store
+- Add changing of type, (multiple choice or boolean)

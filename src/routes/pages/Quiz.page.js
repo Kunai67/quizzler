@@ -12,6 +12,10 @@ import QuestionLink from '../../res/svg/question-circle.svg';
 import BookLink from '../../res/svg/book.svg';
 import ExitLink from '../../res/svg/home.svg';
 
+// REDUX IMPORTS
+import { connect } from 'react-redux';
+import { fetchQuestions, updateStatus } from '../../redux/actions';
+
 const Header = styled.div`
     background: ${ BLACK };
     padding: 2em;
@@ -122,43 +126,59 @@ const ExitButton = styled(Link)`
     border-radius: 20px;
 `;
 
-export default function QuizPage() {
-    return (
-        <BackgroundContainer>
-            <Header>
-                <CategoryDiv>
-                    <Icon src={ BookLink } alt='Category: '/>
-                    <HeaderMainP>General Knowledge</HeaderMainP>    
-                </CategoryDiv>
-
-                <Div>
+function QuizPage(props) {
+    if (props.questions.length > 0) {
+        return (
+            <BackgroundContainer>
+                <Header>
+                    <CategoryDiv>
+                        <Icon src={ BookLink } alt='Category: '/>
+                        <HeaderMainP>General Knowledge</HeaderMainP>    
+                    </CategoryDiv>
+    
                     <Div>
-                        <Icon src={ QuestionLink } alt='Question: '/>
-                        <HeaderP>1</HeaderP>
-                    </Div>
-                    <Div>
-                        <Icon src={ CogsLink } alt='Difficulty: '/>
-                        <HeaderP>Easy</HeaderP>
-                    </Div>
-                    <Div>
-                        <Icon src={ CheckLink } alt='Question: '/>
-                        <HeaderP>0 / 10</HeaderP>
-                    </Div>
-                    <Div>
-                        <ExitButton to="/"><Icon src={ ExitLink } alt='Exit'/></ExitButton>
-                    </Div>
-                </Div>                    
-            </Header>
-            <QuizContainer bg={ BG }>
-                <Question>This is a sample question. What is the answer?</Question>
-
-                <ChoiceContainer>
-                    <ChoiceButton>Answer 1</ChoiceButton>
-                    <ChoiceButton>Answer 2</ChoiceButton>
-                    <ChoiceButton>Answer 3</ChoiceButton>
-                    <ChoiceButton>Answer 4</ChoiceButton>
-                </ChoiceContainer>
-            </QuizContainer>
-        </BackgroundContainer>
-    )
+                        <Div>
+                            <Icon src={ QuestionLink } alt='Question: '/>
+                            <HeaderP>1</HeaderP>
+                        </Div>
+                        <Div>
+                            <Icon src={ CogsLink } alt='Difficulty: '/>
+                            <HeaderP>Easy</HeaderP>
+                        </Div>
+                        <Div>
+                            <Icon src={ CheckLink } alt='Question: '/>
+                            <HeaderP>0 / 10</HeaderP>
+                        </Div>
+                        <Div>
+                            <ExitButton to="/"><Icon src={ ExitLink } alt='Exit'/></ExitButton>
+                        </Div>
+                    </Div>                    
+                </Header>
+                <QuizContainer bg={ BG }>
+                    <Question>This is a sample question. What is the answer?</Question>
+    
+                    <ChoiceContainer>
+                        <ChoiceButton>Answer 1</ChoiceButton>
+                        <ChoiceButton>Answer 2</ChoiceButton>
+                        <ChoiceButton>Answer 3</ChoiceButton>
+                        <ChoiceButton>Answer 4</ChoiceButton>
+                    </ChoiceContainer>
+                </QuizContainer>
+            </BackgroundContainer>
+        )
+    } else {
+        return (
+            <DefaultContainer>
+                <HeaderMainP>Looks like you came here directly.</HeaderMainP>
+            </DefaultContainer>
+        )
+    }
 }
+
+const mapStateToProps = state => {
+    return {
+        questions: state.serverData.questions
+    }
+}
+
+export default connect(mapStateToProps, null)(QuizPage);
