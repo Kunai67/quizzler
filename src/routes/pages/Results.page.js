@@ -8,6 +8,10 @@ import TwitterIconLink from '../../res/svg/twitter.svg';
 import IGIconLink from '../../res/svg/instagram.svg';
 import { Link } from 'react-router-dom';
 
+// REACT REDUX
+import { connect } from 'react-redux';
+
+
 const StyledMainHeading = styled(MainHeading)`
     margin-bottom: -0.25em;
 `;
@@ -72,7 +76,7 @@ const HomeLink = styled(Link)`
     }
 `;
 
-export default function ResultsPage() {
+function ResultsPage(props) {
     return (
         <DefaultContainer>
             <div>
@@ -80,14 +84,14 @@ export default function ResultsPage() {
                 <SubHeading color={ BG }>Results</SubHeading>
                 <Div>
                     <P>Finish Time</P>
-                    <P color={ BG }>8 minutes, 25 seconds</P>
+                    <P color={ BG }>{props.time.minutes} minutes, {props.time.seconds} seconds</P>
                 </Div>
                 <Div>
                     <P>Correct Answers</P>
-                    <P color={ BG }>10/10 Correct Answers</P>
+                    <P color={ BG }>{ props.numberOfCorrectAnswers }/{ props.numberOfQuestions } Correct Answers</P>
                 </Div>
 
-                <ResultSummary>You Passed! Congrats!</ResultSummary>
+                <ResultSummary>{ (props.numberOfCorrectAnswers / props.numberOfQuestions) >= 0.5 ? "You Passed! Congrats!" : "Sorry, you failed." }</ResultSummary>
                 <HomeLink to="/">Play Again?</HomeLink>
 
                 <P>Share on:</P>
@@ -102,3 +106,13 @@ export default function ResultsPage() {
         </DefaultContainer>
     )
 }
+
+const mapStateToProps = state => {
+    return {
+        numberOfCorrectAnswers: state.gameState.correctAnswers,
+        numberOfQuestions: state.serverData.questions.length,
+        time: state.gameState.finishTime
+    }
+}
+
+export default connect(mapStateToProps, null)(ResultsPage);

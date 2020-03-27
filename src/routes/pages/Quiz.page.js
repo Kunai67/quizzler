@@ -15,7 +15,7 @@ import ClockLink from '../../res/svg/alarm-clock.svg';
 
 // REDUX IMPORTS
 import { connect } from 'react-redux';
-import { markCorrect, markWrong } from '../../redux/actions';
+import { markCorrect, markWrong, recordTime } from '../../redux/actions';
 
 const Header = styled.div`
     background: ${ BLACK };
@@ -203,6 +203,7 @@ class Timer extends React.Component {
     }
 
     componentWillUnmount() {
+        this.props.recordTime(this.state.minutes, this.state.seconds);
         clearInterval(this.timer);
     }
 
@@ -240,7 +241,7 @@ class QuizPage extends React.Component {
                         <Div>
                             <Div>
                                 <Icon src={ ClockLink } alt='Time: '/>
-                                <Timer />
+                                <Timer recordTime={this.props.recordTime}/>
                             </Div>
                             <Div>
                                 <Icon src={ QuestionLink } alt='Question: '/>
@@ -273,7 +274,7 @@ class QuizPage extends React.Component {
             )
         } 
         else if (this.props.id > this.props.numberOfQuestions && this.props.numberOfQuestions > 0) {
-            return <Redirect to="/result" />
+            return <Redirect to="result"/>
         }
         else {
             return (
@@ -299,4 +300,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { markCorrect, markWrong })(QuizPage);
+export default connect(mapStateToProps, { markCorrect, markWrong, recordTime })(QuizPage);

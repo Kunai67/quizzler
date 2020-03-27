@@ -96,6 +96,16 @@ function fetchCategory() {
     }
 }
 
+// SAVE FINISH TIME
+const RECORD_TIME = "RECORD_TIME";
+function recordTime(minutes, seconds) {
+    return {
+        type: RECORD_TIME,
+        minutes,
+        seconds
+    }
+}
+
 export {
     FETCH_CATEGORY_REQUEST,
     FETCH_CATEGORY_SUCCESS,
@@ -105,11 +115,13 @@ export {
     UPDATE_QUIZ_STATUS,
     MARK_CORRECT,
     MARK_WRONG,
+    RECORD_TIME,
 
     fetchQuestions,
     fetchCategory,
     markCorrect,
     markWrong,
     updateStatus,
-    changeSettings
+    changeSettings,
+    recordTime
 }

@@ -1,7 +1,7 @@
 import { 
     FETCH_QUESTIONS_SUCCESS, FETCH_QUESTIONS_REQUEST, 
     UPDATE_QUIZ_STATUS, MARK_CORRECT, MARK_WRONG, 
-    FETCH_CATEGORY_REQUEST, FETCH_CATEGORY_SUCCESS, SETTINGS_CHANGE
+    FETCH_CATEGORY_REQUEST, FETCH_CATEGORY_SUCCESS, SETTINGS_CHANGE, RECORD_TIME
 } from '../actions';
 
 import { combineReducers } from 'redux';
@@ -10,12 +10,17 @@ import { combineReducers } from 'redux';
 function status(state = { 
     isStarted: false,
     questionPointer: 0, 
-    correctAnswers: 0
+    correctAnswers: 0,
+    finishTime: { minutes: 0, seconds: 0}
 }, action) {
     switch (action.type) {
         case UPDATE_QUIZ_STATUS:
             return Object.assign({}, state, {
                 isStarted: action.isStarted
+            });
+        case RECORD_TIME: 
+            return Object.assign({}, state, {
+                finishTime: { minutes: action.minutes, seconds: action.seconds }
             });
         case MARK_CORRECT:
             return Object.assign({}, state, state.correctAnswers++, state.questionPointer++);
