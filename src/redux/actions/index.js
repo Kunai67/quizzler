@@ -20,10 +20,10 @@ function fetchQuestions(category, numberOfQuestions, difficulty) {
     return function (dispatch) {
         dispatch(requestQuestions());
 
-        return fetch(`https://opentdb.com/api.php?amount=${numberOfQuestions}&category=${category}&difficulty=${difficulty}`)
+        return fetch(`https://opentdb.com/api.php?category=${category}&amount=${numberOfQuestions}&difficulty=${difficulty}`)
                 .then(res => res.json())
                 .then(questions => {
-                    console.log("Received Questions");
+                    console.log(questions);
                     dispatch(receiveQuestions(questions.results));
                 });
     }

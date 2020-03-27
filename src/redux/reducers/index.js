@@ -24,7 +24,7 @@ function status(state = {
 
 // GAME SETTINGS
 function settings(state = {
-    selectedCategory: null,
+    selectedCategory: 0,
     numberOfQuestions: 10,
     difficulty: 'easy',
 }, action) {

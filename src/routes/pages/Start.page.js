@@ -8,7 +8,7 @@ import { BG, PRIMARY, SECONDARY } from '../../res/color-palette';
 import { RedirectButton } from '../../components/functional/RedirectButton';
 
 // REACT REDUX IMPORTS
-import { updateStatus } from '../../redux/actions';
+import { updateStatus, fetchQuestions } from '../../redux/actions';
 import { connect } from 'react-redux';
 
 const WelcomeHeading = styled(SubHeading)`
@@ -37,7 +37,7 @@ class StartPage extends React.Component {
     }    
 
     componentDidMount() {
-        
+        this.props.fetchQuestions(this.props.selectedCategory, this.props.numberOfQuestions, this.props.difficulty);
     }
 
     render() {
@@ -54,4 +54,8 @@ class StartPage extends React.Component {
     }
 }
 
-export default connect(null, { updateStatus })(StartPage);
+const mapStateToProps = state => {
+    return state.gameSettings;
+}
+
+export default connect(mapStateToProps, { updateStatus, fetchQuestions })(StartPage);
