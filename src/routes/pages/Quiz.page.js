@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { WHITE, BG, PRIMARY, BLACK } from '../../res/color-palette';
 import { DefaultContainer } from '../../components/styled/containers';
 import { DefaultButton } from '../../components/styled/buttons';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 // IMAGE LINKS
 import CogsLink from '../../res/svg/cogs.svg';
@@ -11,6 +11,7 @@ import CheckLink from '../../res/svg/checkmark-circle.svg';
 import QuestionLink from '../../res/svg/question-circle.svg';
 import BookLink from '../../res/svg/book.svg';
 import ExitLink from '../../res/svg/home.svg';
+import ClockLink from '../../res/svg/alarm-clock.svg';
 
 // REDUX IMPORTS
 import { connect } from 'react-redux';
@@ -28,11 +29,11 @@ const Header = styled.div`
 `;
 
 const HeaderP = styled.p`
-    font-size: 4em;
+    font-size: 3em;
     color: ${ WHITE };
 
     @media screen and (max-width: 768px) {
-        font-size: 2em;
+        font-size: 1.5em;
     }
 `;
 
@@ -40,7 +41,7 @@ const HeaderMainP = styled(HeaderP)`
     font-weight: bold;
     
     @media screen and (max-width: 768px) {
-        font-size: 2.5em;
+        font-size: 2em;
     }
 `;
 
@@ -65,11 +66,11 @@ const CategoryDiv = styled(Div)`
 `;
 
 const Icon = styled.img`
-    width: 4em;
+    width: 3.5em;
     margin: 0 2em;
 
     @media screen and (max-width: 768px) {
-        width: 3em;
+        width: 2.5em;
         margin: 0 1em;        
     }
 `;
@@ -169,9 +170,52 @@ function randomizeChoices(incorrectAnsArr, correctAns) {
     return answersArr;
 }
 
+class Timer extends React.Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            minutes: 0,
+            seconds: 0
+        };
+
+        this.tick = this.tick.bind(this);
+    }
+    
+    tick() {
+        if(this.state.seconds > 60) {
+            this.setState({
+                minutes: this.state.minutes + 1,
+                seconds: 0
+            })
+        } else {
+            this.setState({
+                seconds: this.state.seconds + 1
+            })
+        }
+    }
+
+    componentDidMount() {
+        this.timer = setInterval(
+            () => this.tick()
+            , 1000
+        );
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
+
+    render() {
+        return <HeaderP>{ this.state.minutes < 10 ? '0' + this.state.minutes : this.state.minutes }: { this.state.seconds < 10 ? '0' + this.state.seconds : this.state.seconds  }</HeaderP>
+    }
+}
+
+
 class QuizPage extends React.Component {
     constructor(props) {
         super(props);
+
         this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
     }
 
@@ -180,12 +224,6 @@ class QuizPage extends React.Component {
             this.props.markCorrect();
         } else {
             this.props.markWrong();
-        }
-    }
-
-    componentDidUpdate() {
-        if (this.props.id > this.props.numberOfQuestions) {
-            // REDIRECT TO RESULTS PAGE
         }
     }
     
@@ -200,6 +238,10 @@ class QuizPage extends React.Component {
                         </CategoryDiv>
         
                         <Div>
+                            <Div>
+                                <Icon src={ ClockLink } alt='Time: '/>
+                                <Timer />
+                            </Div>
                             <Div>
                                 <Icon src={ QuestionLink } alt='Question: '/>
                                 <HeaderP>{ this.props.id }</HeaderP>
@@ -229,7 +271,11 @@ class QuizPage extends React.Component {
                     </QuizContainer>
                 </BackgroundContainer>
             )
-        } else {
+        } 
+        else if (this.props.id > this.props.numberOfQuestions && this.props.numberOfQuestions > 0) {
+            return <Redirect to="/result" />
+        }
+        else {
             return (
                 <DefaultContainer>
                     <div>

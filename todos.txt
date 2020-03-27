@@ -1,6 +1,8 @@
 1. Quiz Page Functionality
 - Loader
 - Add timer
+- Redirect to Results Page after quiz
+- Modal to Show Correct or Wrong Answer
 
 DONE:
 - Loading of Questions
