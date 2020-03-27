@@ -14,7 +14,7 @@ import ExitLink from '../../res/svg/home.svg';
 
 // REDUX IMPORTS
 import { connect } from 'react-redux';
-import { fetchQuestions, updateStatus } from '../../redux/actions';
+import { markCorrect } from '../../redux/actions';
 
 const Header = styled.div`
     background: ${ BLACK };
@@ -126,59 +126,114 @@ const ExitButton = styled(Link)`
     border-radius: 20px;
 `;
 
-function QuizPage(props) {
-    if (props.questions.length > 0) {
-        return (
-            <BackgroundContainer>
-                <Header>
-                    <CategoryDiv>
-                        <Icon src={ BookLink } alt='Category: '/>
-                        <HeaderMainP>General Knowledge</HeaderMainP>    
-                    </CategoryDiv>
+// HELPER FUNCTION TO DECODE HTML ELEMENTS FROM THE JSON
+function decodeHtml(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
+
+//HELPER FUNCTION TO SHUFFLE AN ARRAY (Fisher-Yates (aka Knuth) Shuffle)
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
+
+function randomizeChoices(incorrectAnsArr, correctAns) {
+    let answersArr = incorrectAnsArr;
+    answersArr.push(correctAns);
+    shuffle(answersArr);
+
+    return answersArr;
+}
+
+class QuizPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
+    }
+
+    handleSubmitAnswer(e) {
+        if (e.target.innerText === this.props.question.correct_answer) {
+            this.props.markCorrect();
+        } else {
+            console.log("Wrong");
+        }
+    }
     
-                    <Div>
+    render() {
+        if (this.props.state.isStarted && this.props.question !== undefined) {
+            return (
+                <BackgroundContainer>
+                    <Header>
+                        <CategoryDiv>
+                            <Icon src={ BookLink } alt='Category: '/>
+                            <HeaderMainP>{ this.props.question.category }</HeaderMainP>    
+                        </CategoryDiv>
+        
                         <Div>
-                            <Icon src={ QuestionLink } alt='Question: '/>
-                            <HeaderP>1</HeaderP>
-                        </Div>
-                        <Div>
-                            <Icon src={ CogsLink } alt='Difficulty: '/>
-                            <HeaderP>Easy</HeaderP>
-                        </Div>
-                        <Div>
-                            <Icon src={ CheckLink } alt='Question: '/>
-                            <HeaderP>0 / 10</HeaderP>
-                        </Div>
-                        <Div>
-                            <ExitButton to="/"><Icon src={ ExitLink } alt='Exit'/></ExitButton>
-                        </Div>
-                    </Div>                    
-                </Header>
-                <QuizContainer bg={ BG }>
-                    <Question>This is a sample question. What is the answer?</Question>
-    
-                    <ChoiceContainer>
-                        <ChoiceButton>Answer 1</ChoiceButton>
-                        <ChoiceButton>Answer 2</ChoiceButton>
-                        <ChoiceButton>Answer 3</ChoiceButton>
-                        <ChoiceButton>Answer 4</ChoiceButton>
-                    </ChoiceContainer>
-                </QuizContainer>
-            </BackgroundContainer>
-        )
-    } else {
-        return (
-            <DefaultContainer>
-                <HeaderMainP>Looks like you came here directly.</HeaderMainP>
-            </DefaultContainer>
-        )
+                            <Div>
+                                <Icon src={ QuestionLink } alt='Question: '/>
+                                <HeaderP>{ this.props.id }</HeaderP>
+                            </Div>
+                            <Div>
+                                <Icon src={ CogsLink } alt='Difficulty: '/>
+                                <HeaderP>{ this.props.question.difficulty.toUpperCase() }</HeaderP>
+                            </Div>
+                            <Div>
+                                <Icon src={ CheckLink } alt='Question: '/>
+                                <HeaderP>{this.props.state.correctAnswers} / { this.props.numberOfQuestions }</HeaderP>
+                            </Div>
+                            <Div>
+                                <ExitButton to="/"><Icon src={ ExitLink } alt='Exit'/></ExitButton>
+                            </Div>
+                        </Div>                    
+                    </Header>
+                    <QuizContainer bg={ BG }>
+                        <Question>{ decodeHtml(this.props.question.question) }</Question>
+        
+                        <ChoiceContainer>
+                            { 
+                                randomizeChoices(this.props.question.incorrect_answers, this.props.question.correct_answer)
+                                .map((ans, i) => <ChoiceButton key={i} onClick={ (e) => this.handleSubmitAnswer(e) }>{ ans }</ChoiceButton>) 
+                            }
+                        </ChoiceContainer>
+                    </QuizContainer>
+                </BackgroundContainer>
+            )
+        } else {
+            return (
+                <DefaultContainer>
+                    <HeaderMainP>Looks like you came here directly.</HeaderMainP>
+                </DefaultContainer>
+            )
+        }
     }
 }
 
 const mapStateToProps = state => {
+    const i = state.gameState.questionPointer;
+
     return {
-        questions: state.serverData.questions
+        id: i + 1,
+        numberOfQuestions: state.serverData.questions.length,
+        question: state.serverData.questions[i],
+        state: state.gameState
     }
 }
 
-export default connect(mapStateToProps, null)(QuizPage);
+export default connect(mapStateToProps, { markCorrect })(QuizPage);

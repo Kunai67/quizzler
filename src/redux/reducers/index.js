@@ -1,13 +1,14 @@
 import { 
     FETCH_QUESTIONS_SUCCESS, FETCH_QUESTIONS_REQUEST, 
-    UPDATE_QUIZ_STATUS, INCREMENT_CORRECT, FETCH_CATEGORY_REQUEST, FETCH_CATEGORY_SUCCESS, SETTINGS_CHANGE
+    UPDATE_QUIZ_STATUS, MARK_CORRECT, FETCH_CATEGORY_REQUEST, FETCH_CATEGORY_SUCCESS, SETTINGS_CHANGE
 } from '../actions';
 
 import { combineReducers } from 'redux';
 
 // STATUS OF THE QUIZ
 function status(state = { 
-    isStarted: false, 
+    isStarted: false,
+    questionPointer: 0, 
     correctAnswers: 0
 }, action) {
     switch (action.type) {
@@ -15,8 +16,8 @@ function status(state = {
             return Object.assign({}, state, {
                 isStarted: action.isStarted
             });
-        case INCREMENT_CORRECT:
-            return Object.assign({}, state, state.correctAnswers++);
+        case MARK_CORRECT:
+            return Object.assign({}, state, state.correctAnswers++, state.questionPointer++);
         default:
             return state;
     }

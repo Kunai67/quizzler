@@ -54,10 +54,10 @@ function updateStatus(isStarted) {
 }
 
 // INCREMENT ON CORRECT ANSWER
-const INCREMENT_CORRECT = "INCREMENT_CORRECT";
-function incrementCorrect() {
+const MARK_CORRECT = "MARK_CORRECT";
+function markCorrect() {
     return {
-        type: INCREMENT_CORRECT,
+        type: MARK_CORRECT,
     }
 }
 
@@ -96,11 +96,11 @@ export {
     FETCH_QUESTIONS_SUCCESS,
     SETTINGS_CHANGE,
     UPDATE_QUIZ_STATUS,
-    INCREMENT_CORRECT,
+    MARK_CORRECT,
 
     fetchQuestions,
     fetchCategory,
-    incrementCorrect,
+    markCorrect,
     updateStatus,
     changeSettings
 }
