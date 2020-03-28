@@ -1,7 +1,8 @@
 import { 
     FETCH_QUESTIONS_SUCCESS, FETCH_QUESTIONS_REQUEST, 
     UPDATE_QUIZ_STATUS, MARK_CORRECT, MARK_WRONG, 
-    FETCH_CATEGORY_REQUEST, FETCH_CATEGORY_SUCCESS, SETTINGS_CHANGE, RECORD_TIME
+    FETCH_CATEGORY_REQUEST, FETCH_CATEGORY_SUCCESS, 
+    SETTINGS_CHANGE, RECORD_TIME, CLEAR_GAME_DATA
 } from '../actions';
 
 import { combineReducers } from 'redux';
@@ -77,8 +78,22 @@ function data(state = {
     }
 }
 
-export const rootReducer = combineReducers({
-    gameState: status, 
+const gameData = combineReducers({
+    gameState: status,
     serverData: data,
+})
+
+const clearGameStateAndServerData = (state, action) => {
+    switch (action.type) {
+        case CLEAR_GAME_DATA:
+            state = undefined;
+            return gameData(state, action);
+        default:
+            return gameData(state, action);
+    }
+}
+
+export const rootReducer = combineReducers({
+    gameData: clearGameStateAndServerData,
     gameSettings: settings
 });

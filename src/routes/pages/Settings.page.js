@@ -154,7 +154,7 @@ class SettingsPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        categories: state.serverData.categories,
+        categories: state.gameData.serverData.categories,
         settings: state.gameSettings
     }
 };

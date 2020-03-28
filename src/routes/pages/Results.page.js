@@ -108,9 +108,9 @@ function ResultsPage(props) {
 
 const mapStateToProps = state => {
     return {
-        numberOfCorrectAnswers: state.gameState.correctAnswers,
-        numberOfQuestions: state.serverData.questions.length,
-        time: state.gameState.finishTime
+        numberOfCorrectAnswers: state.gameData.gameState.correctAnswers,
+        numberOfQuestions: state.gameData.serverData.questions.length,
+        time: state.gameData.gameState.finishTime
     }
 }
 

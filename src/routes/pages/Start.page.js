@@ -8,7 +8,7 @@ import { BG, PRIMARY, SECONDARY } from '../../res/color-palette';
 import { RedirectButton } from '../../components/functional/RedirectButton';
 
 // REACT REDUX IMPORTS
-import { updateStatus } from '../../redux/actions';
+import { updateStatus, clearGameData } from '../../redux/actions';
 import { connect } from 'react-redux';
 
 const WelcomeHeading = styled(SubHeading)`
@@ -32,6 +32,10 @@ class StartPage extends React.Component {
         this.handleStart = this.handleStart.bind(this);
     }
 
+    componentDidMount() {
+        this.props.clearGameData();
+    }
+
     handleStart() {
         this.props.updateStatus(true);
     }    
@@ -50,4 +54,4 @@ class StartPage extends React.Component {
     }
 }
 
-export default connect(null, { updateStatus })(StartPage);
+export default connect(null, { updateStatus, clearGameData })(StartPage);

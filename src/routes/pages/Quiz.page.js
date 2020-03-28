@@ -229,11 +229,13 @@ class QuizPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchQuestions(this.props.settings.selectedCategory, this.props.settings.numberOfQuestions, this.props.settings.difficulty);
+        if(this.props.state.isStarted) {
+            this.props.fetchQuestions(this.props.settings.selectedCategory, this.props.settings.numberOfQuestions, this.props.settings.difficulty);
+        }
     }
     
     render() {
-        if (this.props.state.isStarted && this.props.question !== undefined) {
+        if (this.props.question !== undefined) {
             return (
                 <BackgroundContainer>
                     <Header>
@@ -277,7 +279,7 @@ class QuizPage extends React.Component {
                 </BackgroundContainer>
             )
         }
-        else if (this.props.question === undefined) {
+        else if (this.props.state.isStarted && this.props.question === undefined) {
             if (this.props.id > this.props.numberOfQuestions && this.props.numberOfQuestions > 0) {
                 this.props.updateStatus();
                 return <Redirect to="result"/>
@@ -303,15 +305,18 @@ class QuizPage extends React.Component {
 }
 
 const mapStateToProps = state => {
-    const i = state.gameState.questionPointer;
+    const i = state.gameData.gameState.questionPointer;
 
     return {
         id: i + 1,
-        numberOfQuestions: state.serverData.questions.length,
-        question: state.serverData.questions[i],
-        state: state.gameState,
+        numberOfQuestions: state.gameData.serverData.questions.length,
+        question: state.gameData.serverData.questions[i],
+        state: state.gameData.gameState,
         settings: state.gameSettings
     }
 }
 
-export default connect(mapStateToProps, { markCorrect, markWrong, recordTime, fetchQuestions, updateStatus })(QuizPage);
+export default connect(
+    mapStateToProps, 
+    { markCorrect, markWrong, recordTime, fetchQuestions, updateStatus }
+    )(QuizPage);

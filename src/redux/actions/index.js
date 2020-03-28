@@ -115,6 +115,14 @@ function recordTime(minutes, seconds) {
     }
 }
 
+// CLEAR GAME DATA (FOR RESET)
+const CLEAR_GAME_DATA = "CLEAR_GAME_DATA";
+function clearGameData() {
+    return {
+        type: CLEAR_GAME_DATA
+    }
+}
+
 export {
     FETCH_CATEGORY_REQUEST,
     FETCH_CATEGORY_SUCCESS,
@@ -125,6 +133,7 @@ export {
     MARK_CORRECT,
     MARK_WRONG,
     RECORD_TIME,
+    CLEAR_GAME_DATA,
 
     fetchQuestions,
     fetchCategory,
@@ -132,5 +141,6 @@ export {
     markWrong,
     updateStatus,
     changeSettings,
-    recordTime
+    recordTime,
+    clearGameData,
 }
