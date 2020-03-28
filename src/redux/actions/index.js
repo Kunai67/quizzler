@@ -30,17 +30,21 @@ function fetchQuestions(category, numberOfQuestions, difficulty) {
 
 // ON SETTINGS CHANGE
 const SETTINGS_CHANGE = "SETTINGS_CHANGE";
+function settingsChange(category, numberOfQuestions, difficulty) {
+    return {
+        type: SETTINGS_CHANGE,
+        category,
+        numberOfQuestions,
+        difficulty
+    }
+}
+
 function changeSettings(category, numberOfQuestions, difficulty) {
     return function(dispatch) {
+        dispatch(settingsChange(category, numberOfQuestions, difficulty));
         dispatch(fetchQuestions(category, numberOfQuestions, difficulty));
-
-        return {
-            type: SETTINGS_CHANGE,
-            category,
-            numberOfQuestions,
-            difficulty
-        }
     }
+    
 }
 
 // WHETHER QUIZ STARTED OR ENDED
@@ -88,11 +92,16 @@ function receiveCategory(data) {
 // FETCH CATEGORY
 function fetchCategory() {
     return function(dispatch) {
-        dispatch(requestCategory);
+        dispatch(requestCategory());
 
         return fetch('https://opentdb.com/api_category.php')
                 .then(res => res.json())
-                .then(categories => dispatch(receiveCategory(categories.trivia_categories)));
+                .then(categories => 
+                    dispatch(
+                        receiveCategory([{id: 0, name: 'No Category'}]
+                        .concat(categories.trivia_categories))
+                    )
+                );
     }
 }
 

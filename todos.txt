@@ -1,7 +1,5 @@
 1. Quiz Page Functionality
 - Loader
-- Add timer
-- Redirect to Results Page after quiz
 - Modal to Show Correct or Wrong Answer
 
 DONE:
@@ -10,13 +8,17 @@ DONE:
 - Increment number of correct answers based on answer
 - Mount new question after answering
 - Update view from State
+- Redirect to Results Page after quiz
+- Add timer
 
 2. Results Page
+- Share links
+
+DONE:
 - Get Number of Questions
 - Get Finish Time
 - Get Correct Answers and Number of Questions
 - Determine whether pass or failed
-- Share links
 
 3. Settings Page
 - Get Category from State
