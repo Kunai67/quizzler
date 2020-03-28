@@ -34,7 +34,27 @@ class QuizPage extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            isFetching: false
+        };
+
         this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
+    }
+
+    componentDidMount() {
+        // FETCH QUESTIONS ONLY IF QUIZ HAS STARTED
+        if(this.props.state.isStarted) {
+            this.props.fetchQuestions(this.props.settings.selectedCategory, this.props.settings.numberOfQuestions, this.props.settings.difficulty);
+            this.setState({ isFetching: true });
+        }
+    }
+
+    componentWillUpdate() {
+        if(!this.props.isFetching) {
+            this.setState({
+                isFetching: false
+            });
+        }
     }
 
     handleSubmitAnswer(e) {
@@ -44,79 +64,74 @@ class QuizPage extends React.Component {
             this.props.markWrong();
         }
     }
-
-    // FETCH QUESTIONS ONLY IF QUIZ HAS STARTED
-    componentDidMount() {
-        if(this.props.state.isStarted) {
-            this.props.fetchQuestions(this.props.settings.selectedCategory, this.props.settings.numberOfQuestions, this.props.settings.difficulty);
-        }
-    }
     
     // CONDITIONALLY RENDERS THE PAGE AND PREVENTS UNAUTHORIZED ACCESS
     // SHOWS LOADING SCREEN WHEN QUESTIONS ARE STILL BEING FETCHED
     render() {
-        if (this.props.question !== undefined) {
-            return (
-                <BackgroundContainer>
-                    <Header>
-                        <CategoryDiv>
-                            <Icon src={ BookLink } alt='Category: '/>
-                            <HeaderMainP>{ this.props.question.category }</HeaderMainP>    
-                        </CategoryDiv>
-        
-                        <Div>
-                            <Div>
-                                <Icon src={ ClockLink } alt='Time: '/>
-                                <Timer recordTime={this.props.recordTime}/>
-                            </Div>
-                            <Div>
-                                <Icon src={ QuestionLink } alt='Question: '/>
-                                <HeaderP>{ this.props.id }</HeaderP>
-                            </Div>
-                            <Div>
-                                <Icon src={ CogsLink } alt='Difficulty: '/>
-                                <HeaderP>{ this.props.question.difficulty.toUpperCase() }</HeaderP>
-                            </Div>
-                            <Div>
-                                <Icon src={ CheckLink } alt='Question: '/>
-                                <HeaderP>{this.props.state.correctAnswers} / { this.props.numberOfQuestions }</HeaderP>
-                            </Div>
-                            <Div>
-                                <ExitButton to="/"><Icon src={ ExitLink } alt='Exit'/></ExitButton>
-                            </Div>
-                        </Div>                    
-                    </Header>
-                    <QuizContainer bg={ BG }>
-                        <Question>{ decodeHtml(this.props.question.question) }</Question>
-        
-                        <ChoiceContainer>
-                            { 
-                                randomizeChoices(this.props.question.incorrect_answers, this.props.question.correct_answer)
-                                .map((ans, i) => <ChoiceButton key={i} onClick={ (e) => this.handleSubmitAnswer(e) }>{ ans }</ChoiceButton>) 
-                            }
-                        </ChoiceContainer>
-                    </QuizContainer>
-                </BackgroundContainer>
-            )
-        }
-        else if (this.props.state.isStarted && this.props.question === undefined) {
-            if (this.props.id > this.props.numberOfQuestions && this.props.numberOfQuestions > 0) {
-                this.props.updateStatus();
-                return <Redirect to="result"/>
-            } else {
+        if (this.props.state.isStarted) {
+            if (this.state.isFetching) {
                 return (
                     <DefaultContainer>
                         <HeaderMainP>Loading...</HeaderMainP>
                     </DefaultContainer>
                 )
+            } else {
+                if (this.props.id > this.props.numberOfQuestions && this.props.numberOfQuestions > 0) {
+                    this.props.updateStatus();
+                    return <Redirect to="result"/>
+                }
+                else {
+                    return (
+                        <BackgroundContainer>
+                            <Header>
+                                <CategoryDiv>
+                                    <Icon src={ BookLink } alt='Category: '/>
+                                    <HeaderMainP>{ this.props.question.category }</HeaderMainP>    
+                                </CategoryDiv>
+                
+                                <Div>
+                                    <Div>
+                                        <Icon src={ ClockLink } alt='Time: '/>
+                                        <Timer recordTime={this.props.recordTime}/>
+                                    </Div>
+                                    <Div>
+                                        <Icon src={ QuestionLink } alt='Question: '/>
+                                        <HeaderP>{ this.props.id }</HeaderP>
+                                    </Div>
+                                    <Div>
+                                        <Icon src={ CogsLink } alt='Difficulty: '/>
+                                        <HeaderP>{ this.props.question.difficulty.toUpperCase() }</HeaderP>
+                                    </Div>
+                                    <Div>
+                                        <Icon src={ CheckLink } alt='Question: '/>
+                                        <HeaderP>{this.props.state.correctAnswers} / { this.props.numberOfQuestions }</HeaderP>
+                                    </Div>
+                                    <Div>
+                                        <ExitButton to="/"><Icon src={ ExitLink } alt='Exit'/></ExitButton>
+                                    </Div>
+                                </Div>                    
+                            </Header>
+                            <QuizContainer bg={ BG }>
+                                <Question>{ decodeHtml(this.props.question.question) }</Question>
+                
+                                <ChoiceContainer>
+                                    { 
+                                        randomizeChoices(this.props.question.incorrect_answers, this.props.question.correct_answer)
+                                        .map((ans, i) => <ChoiceButton key={i} onClick={ (e) => this.handleSubmitAnswer(e) }>{ ans }</ChoiceButton>) 
+                                    }
+                                </ChoiceContainer>
+                            </QuizContainer>
+                        </BackgroundContainer>
+                    )
+                }
             }
-        }
+        } 
         else {
             return (
                 <DirectAccessWarning />
             )
         }
-    }
+    }    
 }
 
 // GET STATE FROM REDUX STORE AND MAP IT AS PROPS
@@ -128,7 +143,8 @@ const mapStateToProps = state => {
         numberOfQuestions: state.gameData.serverData.questions.length,
         question: state.gameData.serverData.questions[i],
         state: state.gameData.gameState,
-        settings: state.gameSettings
+        settings: state.gameSettings,
+        isFetching: state.gameData.serverData.isFetching
     }
 }
 

@@ -2,6 +2,9 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+// RESOURCES IMPORTS
+import { WHITE, BG } from '../../../res/color-palette';
+
 // COMPONENT IMPORTS
 import { MainHeading } from '../utils/headings';
 

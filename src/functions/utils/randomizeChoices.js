@@ -1,6 +1,6 @@
 import shuffle from './shuffle';
 
-export function randomizeChoices(incorrectAnsArr, correctAns) {
+export default function randomizeChoices(incorrectAnsArr, correctAns) {
     let answersArr = incorrectAnsArr;
     answersArr.push(correctAns);
     shuffle(answersArr);

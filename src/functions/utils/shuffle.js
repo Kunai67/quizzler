@@ -1,5 +1,5 @@
 //HELPER FUNCTION TO SHUFFLE AN ARRAY (Fisher-Yates (aka Knuth) Shuffle)
-export function shuffle(array) {
+export default function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
   
     // While there remain elements to shuffle...

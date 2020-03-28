@@ -19,7 +19,7 @@ import {
 
 
 function ResultsPage(props) {
-    if (props.isStarted) {
+    if (props.numberOfQuestions !== 0) {
         return (
             <DefaultContainer>
                 <div>
@@ -59,7 +59,6 @@ const mapStateToProps = state => {
         numberOfCorrectAnswers: state.gameData.gameState.correctAnswers,
         numberOfQuestions: state.gameData.serverData.questions.length,
         time: state.gameData.gameState.finishTime,
-        isStarted: state.gameData.gameState.isStarted
     }
 }
 

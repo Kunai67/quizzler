@@ -7,6 +7,7 @@ import { BLACK, WHITE, BG, PRIMARY } from '../../../res/color-palette';
 
 // COMPONENT IMPORTS
 import { DefaultButton } from '../../styled/utils/buttons';
+import { DefaultContainer } from '../../styled/utils/containers';
 
 const Header = styled.div`
     background: ${ BLACK };

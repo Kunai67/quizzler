@@ -10,7 +10,7 @@ import { WHITE, BG, ACCENT, BLACK } from '../../res/color-palette';
 
 //COMPONENT IMPORTS
 import { DefaultContainer } from '../../components/styled/utils/containers';
-import { DefaultButton } from '../../components/styled/buttons';
+import { DefaultButton } from '../../components/styled/utils/buttons';
 import { SubHeading } from '../../components/styled/utils/headings';
 import {
     StyledMainHeading, FlexForm, Label,
@@ -60,63 +60,69 @@ class SettingsPage extends React.Component {
     }
 
     render() {
-        return (
-            <DefaultContainer>
-                <div>
-                    <StyledMainHeading color={ WHITE }>Quizzler!</StyledMainHeading>
-                    <SubHeading color={ BG }>Settings</SubHeading>
-                    <FlexForm action="">
-                        <Label htmlFor="category">Category</Label>
-                        <Select 
-                        name="category" 
-                        id="categorySelect" 
-                        onChange={ (e) => this.onSelectChange(e) }
-                        defaultValue={ this.state.category }
-                        >
-                            {
-                                this.props.categories.map(category => 
-                                    (
-                                    <option key={category.id} value={category.id}>
-                                        {category.name}
-                                    </option>
+        if (!this.props.isFetching) {
+            return (
+                <DefaultContainer>
+                    <div>
+                        <StyledMainHeading color={ WHITE }>Quizzler!</StyledMainHeading>
+                        <SubHeading color={ BG }>Settings</SubHeading>
+                        <FlexForm action="">
+                            <Label htmlFor="category">Category</Label>
+                            <Select 
+                            name="category" 
+                            id="categorySelect" 
+                            onChange={ (e) => this.onSelectChange(e) }
+                            defaultValue={ this.state.category }
+                            >
+                                {
+                                    this.props.categories.map(category => 
+                                        (
+                                        <option key={category.id} value={category.id}>
+                                            {category.name}
+                                        </option>
+                                        )
                                     )
-                                )
-                            }
-                        </Select>
-
-                        <Label htmlFor="difficulty">Difficulty</Label>
-                        <Select 
-                        name="difficulty" 
-                        id="difficultySelect" 
-                        onChange={ (e) => this.onSelectChange(e) }
-                        defaultValue={ this.state.difficulty }
-                        >
-                            <option value="easy">Easy</option>
-                            <option value="medium">Medium</option>
-                            <option value="difficult">Difficult</option>
-                        </Select>
-
-                        <Label htmlFor="numOfQ">Number of Questions</Label>
-                        <Input name="numOfQ" id="numOfQInput" 
-                        onChange={ (e) => this.onInputChange(e) }
-                        defaultValue={ this.state.numOfQ }
-                        />
-
-                        <Div>
-                            <DefaultButton bg={ BG } color={ BLACK } onClick={ (e) => this.onSubmit(e) }>Save</DefaultButton>
-                            <RedirectButton to="/" bg={ ACCENT } color={ BLACK }>Cancel</RedirectButton>
-                        </Div>
-                    </FlexForm>
-                </div>
-            </DefaultContainer>
-        )
+                                }
+                            </Select>
+    
+                            <Label htmlFor="difficulty">Difficulty</Label>
+                            <Select 
+                            name="difficulty" 
+                            id="difficultySelect" 
+                            onChange={ (e) => this.onSelectChange(e) }
+                            defaultValue={ this.state.difficulty }
+                            >
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="difficult">Difficult</option>
+                            </Select>
+    
+                            <Label htmlFor="numOfQ">Number of Questions</Label>
+                            <Input name="numOfQ" id="numOfQInput" 
+                            onChange={ (e) => this.onInputChange(e) }
+                            defaultValue={ this.state.numOfQ }
+                            />
+    
+                            <Div>
+                                <DefaultButton bg={ BG } color={ BLACK } onClick={ (e) => this.onSubmit(e) }>Save</DefaultButton>
+                                <RedirectButton to="/" bg={ ACCENT } color={ BLACK }>Cancel</RedirectButton>
+                            </Div>
+                        </FlexForm>
+                    </div>
+                </DefaultContainer>
+            ) 
+        }
+        else {
+            return <DefaultContainer/>;
+        }
     }
 }
 
 const mapStateToProps = state => {
     return {
         categories: state.gameData.serverData.categories,
-        settings: state.gameSettings
+        settings: state.gameSettings,
+        isFetching: state.gameData.serverData.isFetching
     }
 };
 
