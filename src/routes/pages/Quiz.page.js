@@ -4,6 +4,7 @@ import { WHITE, BG, PRIMARY, BLACK } from '../../res/color-palette';
 import { DefaultContainer } from '../../components/styled/containers';
 import { DefaultButton } from '../../components/styled/buttons';
 import { Link, Redirect } from 'react-router-dom';
+import DirectAccessWarning from '../../components/functional/DirectAccessWarning';
 
 // IMAGE LINKS
 import CogsLink from '../../res/svg/cogs.svg';
@@ -293,12 +294,7 @@ class QuizPage extends React.Component {
         }
         else {
             return (
-                <DefaultContainer>
-                    <div>
-                        <HeaderMainP>Looks like you came here directly.</HeaderMainP>
-                        <BackToHome to="/">Back to Home</BackToHome>
-                    </div>
-                </DefaultContainer>
+                <DirectAccessWarning />
             )
         }
     }

@@ -7,6 +7,7 @@ import FBIconLink from '../../res/svg/facebook.svg';
 import TwitterIconLink from '../../res/svg/twitter.svg';
 import IGIconLink from '../../res/svg/instagram.svg';
 import { Link } from 'react-router-dom';
+import DirectAccessWarning from '../../components/functional/DirectAccessWarning';
 
 // REACT REDUX
 import { connect } from 'react-redux';
@@ -76,41 +77,47 @@ const HomeLink = styled(Link)`
 `;
 
 function ResultsPage(props) {
-    return (
-        <DefaultContainer>
-            <div>
-                <StyledMainHeading color={ WHITE }>Quizzler!</StyledMainHeading>
-                <SubHeading color={ BG }>Results</SubHeading>
-                <Div>
-                    <P>Finish Time</P>
-                    <P color={ BG }>{props.time.minutes} minutes, {props.time.seconds} seconds</P>
-                </Div>
-                <Div>
-                    <P>Correct Answers</P>
-                    <P color={ BG }>{ props.numberOfCorrectAnswers }/{ props.numberOfQuestions } Correct Answers</P>
-                </Div>
-
-                <ResultSummary>{ (props.numberOfCorrectAnswers / props.numberOfQuestions) >= 0.5 ? "You Passed! Congrats!" : "Sorry, you failed." }</ResultSummary>
-                <HomeLink to="/">Play Again?</HomeLink>
-
-                <P>Share on:</P>
-                <SocialContainer>
-                    <SocialIcon src={FBIconLink} alt="Facebook"/>
-                    <SocialIcon src={TwitterIconLink} alt="Twitter"/>
-                    <SocialIcon src={IGIconLink} alt="Instagram"/>
-                </SocialContainer>
-
-                
-            </div>
-        </DefaultContainer>
-    )
+    if (props.isStarted) {
+        return (
+            <DefaultContainer>
+                <div>
+                    <StyledMainHeading color={ WHITE }>Quizzler!</StyledMainHeading>
+                    <SubHeading color={ BG }>Results</SubHeading>
+                    <Div>
+                        <P>Finish Time</P>
+                        <P color={ BG }>{props.time.minutes} minutes, {props.time.seconds} seconds</P>
+                    </Div>
+                    <Div>
+                        <P>Correct Answers</P>
+                        <P color={ BG }>{ props.numberOfCorrectAnswers }/{ props.numberOfQuestions } Correct Answers</P>
+                    </Div>
+    
+                    <ResultSummary>{ (props.numberOfCorrectAnswers / props.numberOfQuestions) >= 0.5 ? "You Passed! Congrats!" : "Sorry, you failed." }</ResultSummary>
+                    <HomeLink to="/">Play Again?</HomeLink>
+    
+                    <P>Share on:</P>
+                    <SocialContainer>
+                        <SocialIcon src={FBIconLink} alt="Facebook"/>
+                        <SocialIcon src={TwitterIconLink} alt="Twitter"/>
+                        <SocialIcon src={IGIconLink} alt="Instagram"/>
+                    </SocialContainer>
+    
+                    
+                </div>
+            </DefaultContainer>
+        ) 
+    }
+    else {
+        return <DirectAccessWarning/>;
+    }
 }
 
 const mapStateToProps = state => {
     return {
         numberOfCorrectAnswers: state.gameData.gameState.correctAnswers,
         numberOfQuestions: state.gameData.serverData.questions.length,
-        time: state.gameData.gameState.finishTime
+        time: state.gameData.gameState.finishTime,
+        isStarted: state.gameData.gameState.isStarted
     }
 }
 
