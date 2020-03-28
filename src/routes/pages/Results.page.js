@@ -1,80 +1,22 @@
+// NPM IMPORTS
 import React from 'react';
-import styled from 'styled-components';
-import { DefaultContainer } from '../../components/styled/containers';
-import { MainHeading, SubHeading } from '../../components/styled/headings';
+import { connect } from 'react-redux';
+
+// RESOURCES IMPORTS
 import { WHITE, BG } from '../../res/color-palette';
 import FBIconLink from '../../res/svg/facebook.svg';
 import TwitterIconLink from '../../res/svg/twitter.svg';
 import IGIconLink from '../../res/svg/instagram.svg';
-import { Link } from 'react-router-dom';
+
+// COMPONENT IMPORTS
+import { DefaultContainer } from '../../components/styled/utils/containers';
+import { SubHeading } from '../../components/styled/utils/headings';
 import DirectAccessWarning from '../../components/functional/DirectAccessWarning';
+import { 
+    Div, HomeLink, P, ResultSummary, 
+    SocialContainer, SocialIcon, StyledMainHeading 
+} from '../../components/styled/pages/results.components';
 
-// REACT REDUX
-import { connect } from 'react-redux';
-
-const StyledMainHeading = styled(MainHeading)`
-    margin-bottom: -0.25em;
-`;
-
-const P = styled.p`
-    font-size: 3em;
-    color: ${props => props.color ? props.color : WHITE};
-
-    @media screen and (max-width: 425px) {
-        font-size: 2em;
-    }
-
-    @media screen and (min-width: 1440px) {
-        font-size: 4em;
-    }
-`;
-
-const Div = styled.div`
-    margin-bottom: 3em;
-`;
-
-const ResultSummary = styled.h2`
-    font-size: 5em;
-    color: ${ WHITE };
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-
-    @media screen and (max-width: 425px) {
-        font-size: 4em;
-    }
-
-    @media screen and (min-width: 1440px) {
-        font-size: 8em;
-    }
-`;
-
-const SocialContainer = styled.div`
-    border-radius: 20px;
-    display: flex;
-    justify-content: space-around;
-    width: 30%;
-    margin: 1em auto;
-`;
-
-const SocialIcon = styled.img`
-    width: 5em;
-    margin: 0 1em;
-`;
-
-const HomeLink = styled(Link)`
-    font-size: 2em;
-    display: block;
-    margin-bottom: 1.5em;
-    color: ${props => props.color ? props.color : BG};
-
-    @media screen and (max-width: 425px) {
-        font-size: 2em;
-    }
-
-    @media screen and (min-width: 1440px) {
-        font-size: 4em;
-    }
-`;
 
 function ResultsPage(props) {
     if (props.isStarted) {

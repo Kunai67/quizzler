@@ -1,12 +1,17 @@
+// NPM IMPORTS
 import React from 'react';
-import styled from 'styled-components';
-import { WHITE, BG, PRIMARY, BLACK } from '../../res/color-palette';
-import { DefaultContainer } from '../../components/styled/containers';
-import { DefaultButton } from '../../components/styled/buttons';
-import { Link, Redirect } from 'react-router-dom';
-import DirectAccessWarning from '../../components/functional/DirectAccessWarning';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-// IMAGE LINKS
+// REDUX ACTION CREATORS
+import { markCorrect, markWrong, recordTime, fetchQuestions, updateStatus } from '../../redux/actions';
+
+// HELPER FUNCTIONS
+import decodeHtml from '../../functions/utils/decodeHtml';
+import randomizeChoices from '../../functions/utils/randomizeChoices';
+
+// RESOURCES IMPORTS
+import { BG } from '../../res/color-palette';
 import CogsLink from '../../res/svg/cogs.svg';
 import CheckLink from '../../res/svg/checkmark-circle.svg';
 import QuestionLink from '../../res/svg/question-circle.svg';
@@ -14,205 +19,16 @@ import BookLink from '../../res/svg/book.svg';
 import ExitLink from '../../res/svg/home.svg';
 import ClockLink from '../../res/svg/alarm-clock.svg';
 
-// REDUX IMPORTS
-import { connect } from 'react-redux';
-import { markCorrect, markWrong, recordTime, fetchQuestions, updateStatus } from '../../redux/actions';
-
-const Header = styled.div`
-    background: ${ BLACK };
-    padding: 2em;
-    display: flex;
-
-    @media screen and (max-width: 768px) {
-        flex-flow: column wrap;
-        padding: 2em 1em;        
-    }
-`;
-
-const HeaderP = styled.p`
-    font-size: 3em;
-    color: ${ WHITE };
-
-    @media screen and (max-width: 768px) {
-        font-size: 1.5em;
-    }
-`;
-
-const HeaderMainP = styled(HeaderP)`
-    font-weight: bold;
-    
-    @media screen and (max-width: 768px) {
-        font-size: 2em;
-    }
-`;
-
-const Div = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    @media screen and (min-width: 600px) and (max-width: 768px) {
-        justify-content: space-around;        
-    }
-`;
-
-const CategoryDiv = styled(Div)`
-    flex-grow: 1;
-    justify-content: start;
-
-    @media screen and (max-width: 768px) {
-        justify-content: center;        
-        margin-bottom: 2em;
-    }
-`;
-
-const Icon = styled.img`
-    width: 3.5em;
-    margin: 0 2em;
-
-    @media screen and (max-width: 768px) {
-        width: 2.5em;
-        margin: 0 1em;        
-    }
-`;
-
-const BackgroundContainer = styled.div`
-    height: 100vh;
-    background: ${ BG };
-`;
-
-const QuizContainer = styled(DefaultContainer)`
-    min-height: auto;
-    flex-flow: column wrap;
-    height: 80%;
-`;
-
-const Question = styled.p`
-    font-size: 5em;
-    color: ${ PRIMARY };
-    margin: 1em 0.5em 2em 0.5em;
-
-    @media screen and (max-width: 768px) {
-        font-size: 3em;
-    }
-
-    @media screen and (min-width: 1441px) {
-        font-size: 7em;
-    }
-`;
-
-const ChoiceContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    @media screen and (max-width: 768px) {
-        justify-content: center;
-    }
-`;
-
-const ChoiceButton = styled(DefaultButton)`
-    flex-basis: 40%;
-    margin-bottom: 1em;
-
-    @media screen and (max-width: 600px) {
-        padding: 1em;
-        flex-basis: 80%;
-    }
-`;
-
-const ExitButton = styled(Link)`
-    margin-left: 1em;
-    background: white;
-    padding: 1em 0;
-    border-radius: 20px;
-`;
-
-const BackToHome = styled(Link)`
-    flex-grow: 1;
-    color: ${ BG };
-    display: inline-block;
-    margin-top: 1em;
-    font-size: 2em;
-`;
-
-// HELPER FUNCTION TO DECODE HTML ELEMENTS FROM THE JSON
-function decodeHtml(html) {
-    var txt = document.createElement("textarea");
-    txt.innerHTML = html;
-    return txt.value;
-}
-
-//HELPER FUNCTION TO SHUFFLE AN ARRAY (Fisher-Yates (aka Knuth) Shuffle)
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-  
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-  
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-  
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-  
-    return array;
-  }
-
-function randomizeChoices(incorrectAnsArr, correctAns) {
-    let answersArr = incorrectAnsArr;
-    answersArr.push(correctAns);
-    shuffle(answersArr);
-
-    return answersArr;
-}
-
-class Timer extends React.Component {
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-            minutes: 0,
-            seconds: 0
-        };
-
-        this.tick = this.tick.bind(this);
-    }
-    
-    tick() {
-        if(this.state.seconds > 60) {
-            this.setState({
-                minutes: this.state.minutes + 1,
-                seconds: 0
-            })
-        } else {
-            this.setState({
-                seconds: this.state.seconds + 1
-            })
-        }
-    }
-
-    componentDidMount() {
-        this.timer = setInterval(
-            () => this.tick()
-            , 1000
-        );
-    }
-
-    componentWillUnmount() {
-        this.props.recordTime(this.state.minutes, this.state.seconds);
-        clearInterval(this.timer);
-    }
-
-    render() {
-        return <HeaderP>{ this.state.minutes < 10 ? '0' + this.state.minutes : this.state.minutes }: { this.state.seconds < 10 ? '0' + this.state.seconds : this.state.seconds  }</HeaderP>
-    }
-}
-
+// COMPONENT IMPORTS
+import { DefaultContainer } from '../../components/styled/utils/containers';
+import {
+    Header, HeaderMainP, HeaderP,
+    Div, CategoryDiv, Icon,
+    Question, ChoiceButton, ExitButton,
+    ChoiceContainer, QuizContainer, BackgroundContainer
+} from '../../components/styled/pages/quiz.components';
+import DirectAccessWarning from '../../components/functional/DirectAccessWarning';
+import Timer from '../../components/functional/Timer';
 
 class QuizPage extends React.Component {
     constructor(props) {
@@ -229,12 +45,15 @@ class QuizPage extends React.Component {
         }
     }
 
+    // FETCH QUESTIONS ONLY IF QUIZ HAS STARTED
     componentDidMount() {
         if(this.props.state.isStarted) {
             this.props.fetchQuestions(this.props.settings.selectedCategory, this.props.settings.numberOfQuestions, this.props.settings.difficulty);
         }
     }
     
+    // CONDITIONALLY RENDERS THE PAGE AND PREVENTS UNAUTHORIZED ACCESS
+    // SHOWS LOADING SCREEN WHEN QUESTIONS ARE STILL BEING FETCHED
     render() {
         if (this.props.question !== undefined) {
             return (
@@ -300,6 +119,7 @@ class QuizPage extends React.Component {
     }
 }
 
+// GET STATE FROM REDUX STORE AND MAP IT AS PROPS
 const mapStateToProps = state => {
     const i = state.gameData.gameState.questionPointer;
 

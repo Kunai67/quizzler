@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BLACK } from '../../res/color-palette';
+import { BLACK } from '../../../res/color-palette';
 
 const MainHeading = styled.h1`
     font-size: 12em;

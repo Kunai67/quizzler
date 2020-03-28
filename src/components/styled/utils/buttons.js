@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { PRIMARY, WHITE } from '../../res/color-palette';
+import { PRIMARY, WHITE } from '../../../res/color-palette';
 
 const DefaultButton = styled.button`
     padding: 1em 2em;

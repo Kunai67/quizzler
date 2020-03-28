@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BLACK } from '../../res/color-palette';
+import { BLACK } from '../../../res/color-palette';
 
 const DefaultContainer = styled.div`
     background: ${props => props.bg ? props.bg : BLACK};

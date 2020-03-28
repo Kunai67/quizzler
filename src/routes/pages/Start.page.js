@@ -1,29 +1,19 @@
+// NPM IMPORTS
 import React from 'react';
-import styled from 'styled-components';
 
-// IMPORTING COMPONENTS
-import { DefaultContainer } from '../../components/styled/containers';
-import { MainHeading, SubHeading } from '../../components/styled/headings';
+// RESOURCES IMPORTS
 import { BG, PRIMARY, SECONDARY } from '../../res/color-palette';
+
+// COMPONENT IMPORTS
+import { DefaultContainer } from '../../components/styled/utils/containers';
+import { MainHeading } from '../../components/styled/utils/headings';
 import { RedirectButton } from '../../components/functional/RedirectButton';
+import { WelcomeHeading } from '../../components/styled/pages/start.components';
 
 // REACT REDUX IMPORTS
 import { updateStatus, clearGameData } from '../../redux/actions';
 import { connect } from 'react-redux';
 
-const WelcomeHeading = styled(SubHeading)`
-    margin-bottom: -1em;
-    font-weight: normal;
-    font-size: 3em;
-
-    @media screen and (max-width: 425px) {
-        font-size: 2em;
-    }
-
-    @media screen and (min-width: 1440px) {
-        font-size: 4em;
-    }
-`;
 
 class StartPage extends React.Component {
     constructor(props) {

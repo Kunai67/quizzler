@@ -1,5 +1,5 @@
 import React from 'react';
-import { DefaultContainer } from '../../components/styled/containers';
+import { DefaultContainer } from '../styled/utils/containers';
 import { WHITE, BG } from '../../res/color-palette';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
