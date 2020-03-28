@@ -20,6 +20,7 @@ DONE:
 - Get Correct Answers and Number of Questions
 - Determine whether pass or failed
 
+DONE:
 3. Settings Page
 - Get Category from State
 - Change Category to State
@@ -28,3 +29,5 @@ DONE:
 
 4. Redux Store
 - Add changing of type, (multiple choice or boolean)
+
+5. Refactoring

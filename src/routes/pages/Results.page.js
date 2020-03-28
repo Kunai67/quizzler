@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 // REACT REDUX
 import { connect } from 'react-redux';
 
-
 const StyledMainHeading = styled(MainHeading)`
     margin-bottom: -0.25em;
 `;

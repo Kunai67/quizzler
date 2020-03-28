@@ -15,7 +15,7 @@ import ClockLink from '../../res/svg/alarm-clock.svg';
 
 // REDUX IMPORTS
 import { connect } from 'react-redux';
-import { markCorrect, markWrong, recordTime } from '../../redux/actions';
+import { markCorrect, markWrong, recordTime, fetchQuestions, updateStatus } from '../../redux/actions';
 
 const Header = styled.div`
     background: ${ BLACK };
@@ -227,6 +227,10 @@ class QuizPage extends React.Component {
             this.props.markWrong();
         }
     }
+
+    componentDidMount() {
+        this.props.fetchQuestions(this.props.settings.selectedCategory, this.props.settings.numberOfQuestions, this.props.settings.difficulty);
+    }
     
     render() {
         if (this.props.state.isStarted && this.props.question !== undefined) {
@@ -272,9 +276,18 @@ class QuizPage extends React.Component {
                     </QuizContainer>
                 </BackgroundContainer>
             )
-        } 
-        else if (this.props.id > this.props.numberOfQuestions && this.props.numberOfQuestions > 0) {
-            return <Redirect to="result"/>
+        }
+        else if (this.props.question === undefined) {
+            if (this.props.id > this.props.numberOfQuestions && this.props.numberOfQuestions > 0) {
+                this.props.updateStatus();
+                return <Redirect to="result"/>
+            } else {
+                return (
+                    <DefaultContainer>
+                        <HeaderMainP>Loading...</HeaderMainP>
+                    </DefaultContainer>
+                )
+            }
         }
         else {
             return (
@@ -296,8 +309,9 @@ const mapStateToProps = state => {
         id: i + 1,
         numberOfQuestions: state.serverData.questions.length,
         question: state.serverData.questions[i],
-        state: state.gameState
+        state: state.gameState,
+        settings: state.gameSettings
     }
 }
 
-export default connect(mapStateToProps, { markCorrect, markWrong, recordTime })(QuizPage);
+export default connect(mapStateToProps, { markCorrect, markWrong, recordTime, fetchQuestions, updateStatus })(QuizPage);
