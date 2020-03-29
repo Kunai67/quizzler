@@ -1,6 +1,7 @@
 // NPM IMPORTS
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 // REDUX ACTION CREATORS
 import { fetchCategory, changeSettings } from '../../redux/actions';
@@ -29,7 +30,8 @@ class SettingsPage extends React.Component {
             categories: this.props.categories,
             category: this.props.settings.selectedCategory,
             difficulty: this.props.settings.difficulty,
-            numOfQ: this.props.settings.numberOfQuestions
+            numOfQ: this.props.settings.numberOfQuestions,
+            willRedirect: false
         }
 
         this.onSelectChange = this.onSelectChange.bind(this);
@@ -58,60 +60,66 @@ class SettingsPage extends React.Component {
         e.preventDefault();
         console.log(this.state.category + '' + this.state.numOfQ + this.state.difficulty);
         this.props.changeSettings(this.state.category, this.state.numOfQ, this.state.difficulty);
+        this.setState({ willRedirect: true });
     }
 
     render() {
         if (!this.props.isFetching) {
-            return (
-                <DefaultContainer>
-                    <div>
-                        <StyledMainHeading color={ WHITE }>Quizzler!</StyledMainHeading>
-                        <SubHeading color={ BG }>Settings</SubHeading>
-                        <FlexForm action="">
-                            <Label htmlFor="category">Category</Label>
-                            <Select 
-                            name="category" 
-                            id="categorySelect" 
-                            onChange={ (e) => this.onSelectChange(e) }
-                            defaultValue={ this.state.category }
-                            >
-                                {
-                                    this.props.categories.map(category => 
-                                        (
-                                        <option key={category.id} value={category.id}>
-                                            {category.name}
-                                        </option>
+            if(!this.state.willRedirect) {
+                return (
+                    <DefaultContainer>
+                        <div>
+                            <StyledMainHeading color={ WHITE }>Quizzler!</StyledMainHeading>
+                            <SubHeading color={ BG }>Settings</SubHeading>
+                            <FlexForm action="">
+                                <Label htmlFor="category">Category</Label>
+                                <Select 
+                                name="category" 
+                                id="categorySelect" 
+                                onChange={ (e) => this.onSelectChange(e) }
+                                defaultValue={ this.state.category }
+                                >
+                                    {
+                                        this.props.categories.map(category => 
+                                            (
+                                            <option key={category.id} value={category.id}>
+                                                {category.name}
+                                            </option>
+                                            )
                                         )
-                                    )
-                                }
-                            </Select>
+                                    }
+                                </Select>
+        
+                                <Label htmlFor="difficulty">Difficulty</Label>
+                                <Select 
+                                name="difficulty" 
+                                id="difficultySelect" 
+                                onChange={ (e) => this.onSelectChange(e) }
+                                defaultValue={ this.state.difficulty }
+                                >
+                                    <option value="easy">Easy</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="difficult">Difficult</option>
+                                </Select>
+        
+                                <Label htmlFor="numOfQ">Number of Questions</Label>
+                                <Input name="numOfQ" id="numOfQInput" 
+                                onChange={ (e) => this.onInputChange(e) }
+                                defaultValue={ this.state.numOfQ }
+                                />
     
-                            <Label htmlFor="difficulty">Difficulty</Label>
-                            <Select 
-                            name="difficulty" 
-                            id="difficultySelect" 
-                            onChange={ (e) => this.onSelectChange(e) }
-                            defaultValue={ this.state.difficulty }
-                            >
-                                <option value="easy">Easy</option>
-                                <option value="medium">Medium</option>
-                                <option value="difficult">Difficult</option>
-                            </Select>
-    
-                            <Label htmlFor="numOfQ">Number of Questions</Label>
-                            <Input name="numOfQ" id="numOfQInput" 
-                            onChange={ (e) => this.onInputChange(e) }
-                            defaultValue={ this.state.numOfQ }
-                            />
-                            
-                            <Div>
-                                <DefaultButton bg={ BG } color={ BLACK } onClick={ (e) => { this.onSubmit(e) } }>Save</DefaultButton>
-                                <RedirectButton to="/" bg={ ACCENT } color={ BLACK }>Cancel</RedirectButton>
-                            </Div>
-                        </FlexForm>
-                    </div>
-                </DefaultContainer>
-            ) 
+                                <Div>
+                                    <DefaultButton bg={ BG } color={ BLACK } onClick={ (e) => { this.onSubmit(e) } }>Save</DefaultButton>
+                                    <RedirectButton to="/" bg={ ACCENT } color={ BLACK }>Cancel</RedirectButton>
+                                </Div>
+                            </FlexForm>
+                        </div>
+                    </DefaultContainer>
+                ) 
+            } 
+            else {
+                return <Redirect to="/" />;
+            }
         }
         else {
             return <LoadingScreen />;

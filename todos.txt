@@ -1,8 +1,8 @@
 1. Quiz Page Functionality
-- Loader
 - Modal to Show Correct or Wrong Answer
 
 DONE:
+- Loader
 - Loading of Questions
 - Produce Buttons based on number of choices
 - Increment number of correct answers based on answer

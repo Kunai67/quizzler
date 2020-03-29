@@ -20,7 +20,6 @@ import ExitLink from '../../res/svg/home.svg';
 import ClockLink from '../../res/svg/alarm-clock.svg';
 
 // COMPONENT IMPORTS
-import { DefaultContainer } from '../../components/styled/utils/containers';
 import {
     Header, HeaderMainP, HeaderP,
     Div, CategoryDiv, Icon,
@@ -36,6 +35,7 @@ class QuizPage extends React.Component {
         super(props);
 
         this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
+        this.generateChoice = this.generateChoice.bind(this);
     }
 
     componentDidMount() {
@@ -51,6 +51,24 @@ class QuizPage extends React.Component {
             this.props.markCorrect();
         } else {
             this.props.markWrong();
+        }
+    }
+
+    generateChoice() {
+        if (this.props.question.type === "multiple") {
+             return randomizeChoices(this.props.question.incorrect_answers, this.props.question.correct_answer)
+                    .map((ans, i) => 
+                    <ChoiceButton key={i} onClick={ (e) => this.handleSubmitAnswer(e) }>
+                        { decodeHtml(ans) }
+                    </ChoiceButton>)
+        } else {
+            let answerArr = this.props.question.incorrect_answers;
+            answerArr.push(this.props.question.correct_answer);
+            return answerArr.sort().reverse()
+                    .map((ans, i) => 
+                    <ChoiceButton key={i} onClick={ (e) => this.handleSubmitAnswer(e) }>
+                        { decodeHtml(ans) }
+                    </ChoiceButton>);
         }
     }
     
@@ -101,8 +119,7 @@ class QuizPage extends React.Component {
                 
                                 <ChoiceContainer>
                                     { 
-                                        randomizeChoices(this.props.question.incorrect_answers, this.props.question.correct_answer)
-                                        .map((ans, i) => <ChoiceButton key={i} onClick={ (e) => this.handleSubmitAnswer(e) }>{ ans }</ChoiceButton>) 
+                                        this.generateChoice()
                                     }
                                 </ChoiceContainer>
                             </QuizContainer>
