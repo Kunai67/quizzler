@@ -1,5 +1,9 @@
 // NPM IMPORTS
 import React from 'react';
+import { connect } from 'react-redux';
+
+// REDUX ACTION CREATORS
+import { updateStatus, clearGameData, requestQuestions } from '../../redux/actions';
 
 // RESOURCES IMPORTS
 import { BG, PRIMARY, SECONDARY } from '../../res/color-palette';
@@ -9,16 +13,13 @@ import { DefaultContainer } from '../../components/styled/utils/containers';
 import { MainHeading } from '../../components/styled/utils/headings';
 import { RedirectButton } from '../../components/functional/RedirectButton';
 import { WelcomeHeading } from '../../components/styled/pages/start.components';
-
-// REACT REDUX IMPORTS
-import { updateStatus, clearGameData, requestQuestions } from '../../redux/actions';
-import { connect } from 'react-redux';
+import Modal from '../../components/functional/Modal';
 
 
 class StartPage extends React.Component {
     constructor(props) {
         super(props)
-    
+
         this.handleStart = this.handleStart.bind(this);
     }
 
@@ -40,9 +41,18 @@ class StartPage extends React.Component {
                     <RedirectButton bg={ PRIMARY } to='/quiz' onClick={ this.handleStart }>Start Game</RedirectButton>
                     <RedirectButton bg={ SECONDARY } to='/settings'>Settings</RedirectButton>
                 </div>
+                <Modal isShown={this.props.isSettingsModified === true ? true : false } headerText="Settings Updated" type="success">
+                    Your settings has been updated successfully.
+                </Modal>
             </DefaultContainer>
         )
     }
 }
 
-export default connect(null, { updateStatus, clearGameData, requestQuestions })(StartPage);
+const mapStateToProps = state => {
+    return {
+        isSettingsModified: state.gameSettings.isModified
+    }
+}
+
+export default connect(mapStateToProps, { updateStatus, clearGameData, requestQuestions })(StartPage);

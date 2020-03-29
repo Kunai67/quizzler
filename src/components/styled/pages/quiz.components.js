@@ -70,6 +70,7 @@ const Icon = styled.img`
 const BackgroundContainer = styled.div`
     height: 100vh;
     background: ${ BG };
+    position: relative;
 `;
 
 const QuizContainer = styled(DefaultContainer)`
@@ -79,9 +80,10 @@ const QuizContainer = styled(DefaultContainer)`
 `;
 
 const Question = styled.p`
-    font-size: 5em;
+    font-size: 4em;
     color: ${ PRIMARY };
     margin: 1em 0.5em 2em 0.5em;
+    width: 80%;
 
     @media screen and (max-width: 768px) {
         font-size: 3em;

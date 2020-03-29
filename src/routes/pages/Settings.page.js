@@ -58,7 +58,6 @@ class SettingsPage extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        console.log(this.state.category + '' + this.state.numOfQ + this.state.difficulty);
         this.props.changeSettings(this.state.category, this.state.numOfQ, this.state.difficulty);
         this.setState({ willRedirect: true });
     }

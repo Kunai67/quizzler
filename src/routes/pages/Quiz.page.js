@@ -29,13 +29,20 @@ import {
 import DirectAccessWarning from '../../components/functional/DirectAccessWarning';
 import Timer from '../../components/functional/Timer';
 import LoadingScreen from '../../components/functional/LoadingScreen';
+import Modal from '../../components/functional/Modal';
 
 class QuizPage extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            isCorrect: false,
+            showModal: false
+        };
+
         this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
         this.generateChoice = this.generateChoice.bind(this);
+        this.createModal =  this.createModal.bind(this);
     }
 
     componentDidMount() {
@@ -47,10 +54,32 @@ class QuizPage extends React.Component {
     }
 
     handleSubmitAnswer(e) {
+        this.setState({ showModal: true });
+
         if (e.target.innerText === this.props.question.correct_answer) {
             this.props.markCorrect();
+            this.setState({ isCorrect: true });
         } else {
             this.props.markWrong();
+            this.setState({ isCorrect: false });
+        }
+    }
+
+    createModal() {
+        if (this.state.showModal) {
+            if (this.state.isCorrect) {
+                return (
+                <Modal isShown="true" headerText="CORRECT!" type="success">
+                    Your answer is correct!
+                </Modal>
+                )
+            } else {
+                return (
+                <Modal isShown="true" headerText="WRONG!" type="error">
+                    The correct answer is {decodeHtml(this.props.question.correct_answer)}
+                </Modal>
+                )
+            }
         }
     }
 

@@ -42,7 +42,7 @@ function settingsChange(category, numberOfQuestions, difficulty) {
 function changeSettings(category, numberOfQuestions, difficulty) {
     return function(dispatch) {
         dispatch(settingsChange(category, numberOfQuestions, difficulty));
-        dispatch(fetchQuestions(category, numberOfQuestions, difficulty));
+        // dispatch(fetchQuestions(category, numberOfQuestions, difficulty));
     }
     
 }
