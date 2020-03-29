@@ -1,7 +1,7 @@
 1. Quiz Page Functionality
-- Modal to Show Correct or Wrong Answer
 
 DONE:
+- Modal to Show Correct or Wrong Answer
 - Loader
 - Loading of Questions
 - Produce Buttons based on number of choices
@@ -20,13 +20,15 @@ DONE:
 - Get Correct Answers and Number of Questions
 - Determine whether pass or failed
 
-DONE:
 3. Settings Page
+- Checking of input
+
+DONE:
 - Get Category from State
 - Change Category to State
 - Change Difficulty
 - Change Number of Questions
-
+ 
 4. Redux Store
 - Add changing of type, (multiple choice or boolean)
 

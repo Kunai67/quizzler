@@ -4,52 +4,93 @@ import styled from 'styled-components';
 import { BG, WHITE, SECONDARY } from '../../res/color-palette';
 import { DefaultButton } from '../styled/utils/buttons';
 
-class Modal extends React.Component {
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-             isShown: Boolean(this.props.isShown)
-        }
-    }
-
-    render() {
-        let mainColor;
+// PROPS: type, isShown, headerText, toggleVisibility
+function Modal(props) {
+    let mainColor;
         
-        switch (this.props.type) {
-            case 'success':
-                mainColor = 'green';
-                break;
-            case 'warning':
-                mainColor = { BG };
-                break;
-            case 'error':
-                mainColor = "red";
-                break;
-            default:
-                mainColor = { SECONDARY };
-                break;
-        };
+    switch (props.type) {
+        case 'success':
+            mainColor = 'green';
+            break;
+        case 'warning':
+            mainColor = { BG };
+            break;
+        case 'error':
+            mainColor = "red";
+            break;
+        default:
+            mainColor = { SECONDARY };
+            break;
+    };
 
-        if (this.state.isShown) {
-            return (
-                <ModalContainer>
-                    <Container>
-                        <Header bg={mainColor}>
-                            <HeaderText>{this.props.headerText}</HeaderText>
-                        </Header>
-                        <Body>
-                            <BodyText color={mainColor}>{this.props.children}</BodyText>
-                        </Body>
-                        <ModalButton bg={mainColor} onClick={() => this.setState({ isShown: false })}>OK</ModalButton>
-                    </Container>
-                </ModalContainer>
-            )
-        } else {
-            return <React.Fragment/>;
-        }
+    if (props.isShown) {
+        return (
+            <ModalContainer>
+                <Container>
+                    <Header bg={mainColor}>
+                        <HeaderText>{props.headerText}</HeaderText>
+                    </Header>
+                    <Body>
+                        <BodyText color={mainColor}>{props.children}</BodyText>
+                    </Body>
+                    <ModalButton bg={mainColor} onClick={() => props.toggleVisibility() }>OK</ModalButton>
+                </Container>
+            </ModalContainer>
+        )
+    } else {
+        return <React.Fragment/>;
     }
 }
+
+// class Modal extends React.Component {
+//     constructor(props) {
+//         super(props)
+    
+//         this.state = {
+//              isShown: Boolean(this.props.isShown)
+//         }
+//     }
+
+//     render() {
+//         let mainColor;
+        
+//         switch (this.props.type) {
+//             case 'success':
+//                 mainColor = 'green';
+//                 break;
+//             case 'warning':
+//                 mainColor = { BG };
+//                 break;
+//             case 'error':
+//                 mainColor = "red";
+//                 break;
+//             default:
+//                 mainColor = { SECONDARY };
+//                 break;
+//         };
+
+//         if (this.state.isShown) {
+//             return (
+//                 <ModalContainer>
+//                     <Container>
+//                         <Header bg={mainColor}>
+//                             <HeaderText>{this.props.headerText}</HeaderText>
+//                         </Header>
+//                         <Body>
+//                             <BodyText color={mainColor}>{this.props.children}</BodyText>
+//                         </Body>
+//                         <ModalButton bg={mainColor} onClick={() => { 
+//                             this.setState({ isShown: false });
+//                             this.props.toggleOutsideState(); 
+//                         }}>OK</ModalButton>
+//                     </Container>
+//                 </ModalContainer>
+//             )
+//         } else {
+//             return <React.Fragment/>;
+//         }
+//     }
+// }
 
 const ModalButton = styled(DefaultButton)`
     position: absolute;

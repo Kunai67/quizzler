@@ -31,18 +31,38 @@ import Timer from '../../components/functional/Timer';
 import LoadingScreen from '../../components/functional/LoadingScreen';
 import Modal from '../../components/functional/Modal';
 
+function ModalSwitcher(props) {
+    if (props.isShown) {
+        if (props.isCorrect) {
+            return (
+            <Modal isShown="true" headerText="CORRECT!" type="success" toggleVisibility={props.setState}>
+                Your answer is correct!
+            </Modal>
+            )
+        } else {
+            return (
+            <Modal isShown="true" headerText="WRONG!" type="error" toggleVisibility={props.setState}>
+                The correct answer is {props.correctAnswer}
+            </Modal>
+            )
+        }
+    } else {
+        return <React.Fragment/>
+    }
+}
+
 class QuizPage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             isCorrect: false,
-            showModal: false
+            showModal: false,
+            correctAnswer: undefined
         };
 
         this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
         this.generateChoice = this.generateChoice.bind(this);
-        this.createModal =  this.createModal.bind(this);
     }
 
     componentDidMount() {
@@ -54,7 +74,7 @@ class QuizPage extends React.Component {
     }
 
     handleSubmitAnswer(e) {
-        this.setState({ showModal: true });
+        this.setState({ showModal: true, correctAnswer: this.props.question.correct_answer });
 
         if (e.target.innerText === this.props.question.correct_answer) {
             this.props.markCorrect();
@@ -62,24 +82,6 @@ class QuizPage extends React.Component {
         } else {
             this.props.markWrong();
             this.setState({ isCorrect: false });
-        }
-    }
-
-    createModal() {
-        if (this.state.showModal) {
-            if (this.state.isCorrect) {
-                return (
-                <Modal isShown="true" headerText="CORRECT!" type="success">
-                    Your answer is correct!
-                </Modal>
-                )
-            } else {
-                return (
-                <Modal isShown="true" headerText="WRONG!" type="error">
-                    The correct answer is {decodeHtml(this.props.question.correct_answer)}
-                </Modal>
-                )
-            }
         }
     }
 
@@ -92,7 +94,9 @@ class QuizPage extends React.Component {
                     </ChoiceButton>)
         } else {
             let answerArr = this.props.question.incorrect_answers;
-            answerArr.push(this.props.question.correct_answer);
+            if(!answerArr.includes(this.props.question.correct_answer)) {
+                answerArr.push(this.props.question.correct_answer);
+            }
             return answerArr.sort().reverse()
                     .map((ans, i) => 
                     <ChoiceButton key={i} onClick={ (e) => this.handleSubmitAnswer(e) }>
@@ -152,6 +156,12 @@ class QuizPage extends React.Component {
                                     }
                                 </ChoiceContainer>
                             </QuizContainer>
+                            <ModalSwitcher 
+                                correctAnswer={decodeHtml(this.state.correctAnswer)}
+                                isCorrect={this.state.isCorrect}
+                                isShown={this.state.showModal}
+                                setState={() => this.setState({ showModal: false })}
+                            />
                         </BackgroundContainer>
                     )
                 }

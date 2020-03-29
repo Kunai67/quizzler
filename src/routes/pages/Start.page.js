@@ -20,10 +20,15 @@ class StartPage extends React.Component {
     constructor(props) {
         super(props)
 
+        this.state = {
+            showModal: false,
+        }
+
         this.handleStart = this.handleStart.bind(this);
     }
 
     componentDidMount() {
+        this.setState({showModal: this.props.isSettingsModified});
         this.props.clearGameData();
     }
 
@@ -41,7 +46,11 @@ class StartPage extends React.Component {
                     <RedirectButton bg={ PRIMARY } to='/quiz' onClick={ this.handleStart }>Start Game</RedirectButton>
                     <RedirectButton bg={ SECONDARY } to='/settings'>Settings</RedirectButton>
                 </div>
-                <Modal isShown={this.props.isSettingsModified === true ? true : false } headerText="Settings Updated" type="success">
+                <Modal 
+                isShown={ this.state.showModal } 
+                headerText="Settings Updated" type="success"
+                toggleVisibility={() => this.setState({ showModal: false })}
+                >
                     Your settings has been updated successfully.
                 </Modal>
             </DefaultContainer>
