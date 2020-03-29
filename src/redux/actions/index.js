@@ -135,6 +135,7 @@ export {
     RECORD_TIME,
     CLEAR_GAME_DATA,
 
+    requestQuestions,
     fetchQuestions,
     fetchCategory,
     markCorrect,

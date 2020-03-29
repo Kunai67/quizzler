@@ -11,7 +11,7 @@ import { RedirectButton } from '../../components/functional/RedirectButton';
 import { WelcomeHeading } from '../../components/styled/pages/start.components';
 
 // REACT REDUX IMPORTS
-import { updateStatus, clearGameData } from '../../redux/actions';
+import { updateStatus, clearGameData, requestQuestions } from '../../redux/actions';
 import { connect } from 'react-redux';
 
 
@@ -28,6 +28,7 @@ class StartPage extends React.Component {
 
     handleStart() {
         this.props.updateStatus(true);
+        this.props.requestQuestions();
     }    
 
     render() {
@@ -44,4 +45,4 @@ class StartPage extends React.Component {
     }
 }
 
-export default connect(null, { updateStatus, clearGameData })(StartPage);
+export default connect(null, { updateStatus, clearGameData, requestQuestions })(StartPage);

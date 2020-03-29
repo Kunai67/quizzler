@@ -17,6 +17,7 @@ import {
     Select, Input, Div
 } from '../../components/styled/pages/settings.components';
 import { RedirectButton } from '../../components/functional/RedirectButton';
+import LoadingScreen from '../../components/functional/LoadingScreen';
 
 class SettingsPage extends React.Component {
     constructor(props) {
@@ -102,9 +103,9 @@ class SettingsPage extends React.Component {
                             onChange={ (e) => this.onInputChange(e) }
                             defaultValue={ this.state.numOfQ }
                             />
-    
+                            
                             <Div>
-                                <DefaultButton bg={ BG } color={ BLACK } onClick={ (e) => this.onSubmit(e) }>Save</DefaultButton>
+                                <DefaultButton bg={ BG } color={ BLACK } onClick={ (e) => { this.onSubmit(e) } }>Save</DefaultButton>
                                 <RedirectButton to="/" bg={ ACCENT } color={ BLACK }>Cancel</RedirectButton>
                             </Div>
                         </FlexForm>
@@ -113,7 +114,7 @@ class SettingsPage extends React.Component {
             ) 
         }
         else {
-            return <DefaultContainer/>;
+            return <LoadingScreen />;
         }
     }
 }

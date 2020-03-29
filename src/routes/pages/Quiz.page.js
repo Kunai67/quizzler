@@ -29,14 +29,11 @@ import {
 } from '../../components/styled/pages/quiz.components';
 import DirectAccessWarning from '../../components/functional/DirectAccessWarning';
 import Timer from '../../components/functional/Timer';
+import LoadingScreen from '../../components/functional/LoadingScreen';
 
 class QuizPage extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            isFetching: false
-        };
 
         this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
     }
@@ -46,14 +43,6 @@ class QuizPage extends React.Component {
         if(this.props.state.isStarted) {
             this.props.fetchQuestions(this.props.settings.selectedCategory, this.props.settings.numberOfQuestions, this.props.settings.difficulty);
             this.setState({ isFetching: true });
-        }
-    }
-
-    componentWillUpdate() {
-        if(!this.props.isFetching) {
-            this.setState({
-                isFetching: false
-            });
         }
     }
 
@@ -69,12 +58,8 @@ class QuizPage extends React.Component {
     // SHOWS LOADING SCREEN WHEN QUESTIONS ARE STILL BEING FETCHED
     render() {
         if (this.props.state.isStarted) {
-            if (this.state.isFetching) {
-                return (
-                    <DefaultContainer>
-                        <HeaderMainP>Loading...</HeaderMainP>
-                    </DefaultContainer>
-                )
+            if (this.props.isFetching) {
+                return <LoadingScreen />
             } else {
                 if (this.props.id > this.props.numberOfQuestions && this.props.numberOfQuestions > 0) {
                     this.props.updateStatus();
