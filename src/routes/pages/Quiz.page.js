@@ -51,6 +51,49 @@ function ModalSwitcher(props) {
     }
 }
 
+function QuizQuestion(props) {
+    let choicesArr;
+
+    // RANDOMIZE CHOICE IF TYPE IS MULTIPLE
+    if (props.question.type === "multiple") {
+        choicesArr = randomizeChoices(props.question.incorrect_answers, props.question.correct_answer)
+    } else {
+    // DONT RANDOMIZE IF TRUE OR FALSE
+        let answerArr = props.question.incorrect_answers;
+        if(!answerArr.includes(props.question.correct_answer)) {
+            answerArr.push(props.question.correct_answer);
+        }
+        choicesArr = answerArr.sort().reverse();
+    }
+
+    // RENDER IF THERE IS A QUESTION
+    if (props.question) {
+        return (
+            <QuizContainer bg={ BG }>
+                <Question>{ decodeHtml(props.question.question) }</Question>
+                <ChoiceContainer>
+                    {  choicesArr.map((ans, i) => 
+                        <ChoiceButton key={i} onClick={ props.handleSubmit }>
+                            { decodeHtml(ans) }
+                        </ChoiceButton>) 
+                    }
+                </ChoiceContainer>
+            </QuizContainer>
+        )
+    } else {
+        return <React.Fragment/>
+    }
+}
+
+function IconStatus(props) {
+    return (
+        <Div>
+            <Icon src={ props.src } alt={ props.alt }/>
+            { props.children }
+        </Div>
+    )
+}
+
 class QuizPage extends React.Component {
     constructor(props) {
         super(props);
@@ -58,57 +101,45 @@ class QuizPage extends React.Component {
         this.state = {
             isCorrect: false,
             showModal: false,
-            correctAnswer: undefined
+            correctAnswer: undefined,
+            hasEnded: false
         };
 
         this.handleSubmitAnswer = this.handleSubmitAnswer.bind(this);
-        this.generateChoice = this.generateChoice.bind(this);
+        this.handleModalVisibility = this.handleModalVisibility.bind(this);
     }
 
     componentDidMount() {
         // FETCH QUESTIONS ONLY IF QUIZ HAS STARTED
         if(this.props.state.isStarted) {
             this.props.fetchQuestions(this.props.settings.selectedCategory, this.props.settings.numberOfQuestions, this.props.settings.difficulty, this.props.settings.choiceType);
-            this.setState({ isFetching: true });
+        }
+    }
+
+    handleModalVisibility() {
+        if (this.props.id > this.props.numberOfQuestions) {
+            this.setState({ hasEnded: true });
+        } else {
+            this.setState({ showModal: false });
+            if (this.state.isCorrect) {
+                this.props.markCorrect();
+            } else {
+                this.props.markWrong();
+            }
         }
     }
 
     handleSubmitAnswer(e) {
         this.setState({ showModal: true, correctAnswer: this.props.question.correct_answer });
-
-        if (e.target.innerText === this.props.question.correct_answer) {
-            this.props.markCorrect();
-            this.setState({ isCorrect: true });
-        } else {
-            this.props.markWrong();
-            this.setState({ isCorrect: false });
-        }
-    }
-
-    generateChoice() {
-        if (this.props.question.type === "multiple") {
-             return randomizeChoices(this.props.question.incorrect_answers, this.props.question.correct_answer)
-                    .map((ans, i) => 
-                    <ChoiceButton key={i} onClick={ (e) => this.handleSubmitAnswer(e) }>
-                        { decodeHtml(ans) }
-                    </ChoiceButton>)
-        } else {
-            let answerArr = this.props.question.incorrect_answers;
-            if(!answerArr.includes(this.props.question.correct_answer)) {
-                answerArr.push(this.props.question.correct_answer);
-            }
-            return answerArr.sort().reverse()
-                    .map((ans, i) => 
-                    <ChoiceButton key={i} onClick={ (e) => this.handleSubmitAnswer(e) }>
-                        { decodeHtml(ans) }
-                    </ChoiceButton>);
-        }
+        this.setState({ isCorrect: [e.target.innerText === this.props.question.correct_answer] });
     }
     
     // CONDITIONALLY RENDERS THE PAGE AND PREVENTS UNAUTHORIZED ACCESS
     // SHOWS LOADING SCREEN WHEN QUESTIONS ARE STILL BEING FETCHED
     render() {
+        // LOOKS IF USER CAME FROM START PAGE OR NOT
         if (this.props.state.isStarted) {
+            // LOGIC FOR LOADING SCREEN
             if (this.props.isFetching) {
                 return <LoadingScreen />
             } else {
@@ -121,47 +152,38 @@ class QuizPage extends React.Component {
                         <BackgroundContainer>
                             <Header>
                                 <CategoryDiv>
-                                    <Icon src={ BookLink } alt='Category: '/>
-                                    <HeaderMainP>{ this.props.question.category }</HeaderMainP>    
+                                    <IconStatus src={ BookLink } alt='Category: '>
+                                        <HeaderMainP>{ this.props.question.category }</HeaderMainP>    
+                                    </IconStatus>
                                 </CategoryDiv>
-                
                                 <Div>
-                                    <Div>
-                                        <Icon src={ ClockLink } alt='Time: '/>
+                                    <IconStatus src={ ClockLink } alt='Time: '>
                                         <Timer recordTime={this.props.recordTime}/>
-                                    </Div>
-                                    <Div>
-                                        <Icon src={ QuestionLink } alt='Question: '/>
+                                    </IconStatus>
+                                    <IconStatus src={ QuestionLink } alt='Question: '>
                                         <HeaderP>{ this.props.id }</HeaderP>
-                                    </Div>
-                                    <Div>
-                                        <Icon src={ CogsLink } alt='Difficulty: '/>
+                                    </IconStatus>
+                                    <IconStatus src={ CogsLink } alt='Difficulty: '>
                                         <HeaderP>{ this.props.question.difficulty.toUpperCase() }</HeaderP>
-                                    </Div>
-                                    <Div>
-                                        <Icon src={ CheckLink } alt='Question: '/>
+                                    </IconStatus>
+                                    <IconStatus src={ CheckLink } alt='Question: '>
                                         <HeaderP>{this.props.state.correctAnswers} / { this.props.numberOfQuestions }</HeaderP>
-                                    </Div>
+                                    </IconStatus>
                                     <Div>
                                         <ExitButton to="/"><Icon src={ ExitLink } alt='Exit'/></ExitButton>
                                     </Div>
                                 </Div>                    
                             </Header>
-                            <QuizContainer bg={ BG }>
-                                <Question>{ decodeHtml(this.props.question.question) }</Question>
-                
-                                <ChoiceContainer>
-                                    { 
-                                        this.generateChoice()
-                                    }
-                                </ChoiceContainer>
-                            </QuizContainer>
+                            <QuizQuestion question={this.props.question} handleSubmit={this.handleSubmitAnswer}/>
+                            
+                            
                             <ModalSwitcher 
                                 correctAnswer={decodeHtml(this.state.correctAnswer)}
                                 isCorrect={this.state.isCorrect}
                                 isShown={this.state.showModal}
-                                setState={() => this.setState({ showModal: false })}
+                                setState={this.handleModalVisibility}
                             />
+
                         </BackgroundContainer>
                     )
                 }
@@ -170,7 +192,7 @@ class QuizPage extends React.Component {
         else {
             return (
                 <DirectAccessWarning />
-            )
+                )
         }
     }    
 }

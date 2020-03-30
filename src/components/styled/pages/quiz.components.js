@@ -96,7 +96,7 @@ const Question = styled.p`
 
 const ChoiceContainer = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-wrap: wrap;
 
     @media screen and (max-width: 768px) {
