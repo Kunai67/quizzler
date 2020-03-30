@@ -19,6 +19,7 @@ import {
 
 
 function ResultsPage(props) {
+    // NUMBER OF QUESTIONS CANNOT BE ZERO IF THE QUIZ HAS FINISHED
     if (props.numberOfQuestions !== 0) {
         return (
             <DefaultContainer>
@@ -43,8 +44,6 @@ function ResultsPage(props) {
                         <SocialIcon src={TwitterIconLink} alt="Twitter"/>
                         <SocialIcon src={IGIconLink} alt="Instagram"/>
                     </SocialContainer>
-    
-                    
                 </div>
             </DefaultContainer>
         ) 

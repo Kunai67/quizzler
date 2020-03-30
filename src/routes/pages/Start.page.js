@@ -16,6 +16,7 @@ import { WelcomeHeading } from '../../components/styled/pages/start.components';
 import Modal from '../../components/functional/Modal';
 
 
+// TODO: Transfer modal to settings page
 class StartPage extends React.Component {
     constructor(props) {
         super(props)

@@ -20,40 +20,28 @@ import {
 import { RedirectButton } from '../../components/functional/RedirectButton';
 import LoadingScreen from '../../components/functional/LoadingScreen';
 
+
 class SettingsPage extends React.Component {
     constructor(props) {
         super(props)
 
-        this.props.fetchCategory();
-
         this.state = {
             categories: this.props.categories,
-            category: this.props.settings.selectedCategory,
-            difficulty: this.props.settings.difficulty,
-            numOfQ: this.props.settings.numberOfQuestions,
             willRedirect: false
         }
 
-        this.onSelectChange = this.onSelectChange.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onSelectChange(e) {
-        switch (e.target.name) {
-            case "category":
-                this.setState({ category : Number(e.target.value) });
-                break;
-            case "difficulty":
-                this.setState({ difficulty : e.target.value });
-                break;
-            default:
-                break;
-        }
+    componentDidMount() {
+        this.props.fetchCategory();
     }
 
     onInputChange(e) {
-        this.setState({ numOfQ: Number(e.target.value) });
+        this.setState({
+            [e.target.name]: e.target.value
+        });
     }
 
     onSubmit(e) {
@@ -64,20 +52,20 @@ class SettingsPage extends React.Component {
 
     render() {
         if (!this.props.isFetching) {
-            if(!this.state.willRedirect) {
+            if(this.state.willRedirect) {
+                return <Redirect to="/" />;
+            } 
+            else {
                 return (
                     <DefaultContainer>
                         <div>
                             <StyledMainHeading color={ WHITE }>Quizzler!</StyledMainHeading>
                             <SubHeading color={ BG }>Settings</SubHeading>
-                            <FlexForm action="">
+                            <FlexForm>
                                 <Label htmlFor="category">Category</Label>
-                                <Select 
-                                name="category" 
-                                id="categorySelect" 
-                                onChange={ (e) => this.onSelectChange(e) }
-                                defaultValue={ this.state.category }
-                                >
+                                {/* RENDERS A SELECT ELEMENT WITH OPTIONS 
+                                DEPENDING ON CATEGORIES THAT HAS BEEN RETRIEVED FROM THE SERVER*/}
+                                <Select name="category" onChange={ (e) => this.onInputChange(e) } defaultValue={ this.props.settings.selectedCategory }>
                                     {
                                         this.props.categories.map(category => 
                                             (
@@ -88,25 +76,15 @@ class SettingsPage extends React.Component {
                                         )
                                     }
                                 </Select>
-        
                                 <Label htmlFor="difficulty">Difficulty</Label>
-                                <Select 
-                                name="difficulty" 
-                                id="difficultySelect" 
-                                onChange={ (e) => this.onSelectChange(e) }
-                                defaultValue={ this.state.difficulty }
-                                >
+                                <Select name="difficulty" onChange={ (e) => this.onInputChange(e) } defaultValue={ this.props.settings.difficulty }>
                                     <option value="easy">Easy</option>
                                     <option value="medium">Medium</option>
                                     <option value="difficult">Difficult</option>
                                 </Select>
-        
                                 <Label htmlFor="numOfQ">Number of Questions</Label>
-                                <Input name="numOfQ" id="numOfQInput" 
-                                onChange={ (e) => this.onInputChange(e) }
-                                defaultValue={ this.state.numOfQ }
-                                />
-    
+                                <Input name="numOfQ" onChange={ (e) => this.onInputChange(e) } defaultValue={ this.props.settings.numberOfQuestions }/>
+                                
                                 <Div>
                                     <DefaultButton bg={ BG } color={ BLACK } onClick={ (e) => { this.onSubmit(e) } }>Save</DefaultButton>
                                     <RedirectButton to="/" bg={ ACCENT } color={ BLACK }>Cancel</RedirectButton>
@@ -115,9 +93,6 @@ class SettingsPage extends React.Component {
                         </div>
                     </DefaultContainer>
                 ) 
-            } 
-            else {
-                return <Redirect to="/" />;
             }
         }
         else {
