@@ -16,11 +16,11 @@ function receiveQuestions(data) {
 }
 
 // FETCHING OF QUESTIONS
-function fetchQuestions(category, numberOfQuestions, difficulty) {
+function fetchQuestions(category, numberOfQuestions, difficulty, choiceType) {
     return function (dispatch) {
         dispatch(requestQuestions());
-
-        return fetch(`https://opentdb.com/api.php?category=${category}&amount=${numberOfQuestions}&difficulty=${difficulty}`)
+        console.log(`https://opentdb.com/api.php?category=${category}&amount=${numberOfQuestions}&difficulty=${difficulty}&type=${choiceType}`);
+        return fetch(`https://opentdb.com/api.php?category=${category}&amount=${numberOfQuestions}&difficulty=${difficulty}&type=${choiceType}`)
                 .then(res => res.json())
                 .then(questions => {
                     dispatch(receiveQuestions(questions.results));
@@ -30,19 +30,19 @@ function fetchQuestions(category, numberOfQuestions, difficulty) {
 
 // ON SETTINGS CHANGE
 const SETTINGS_CHANGE = "SETTINGS_CHANGE";
-function settingsChange(category, numberOfQuestions, difficulty) {
+function settingsChange(category, numberOfQuestions, difficulty, choiceType) {
     return {
         type: SETTINGS_CHANGE,
         category,
         numberOfQuestions,
-        difficulty
+        difficulty,
+        choiceType
     }
 }
 
-function changeSettings(category, numberOfQuestions, difficulty) {
+function changeSettings(category, numberOfQuestions, difficulty, choiceType) {
     return function(dispatch) {
-        dispatch(settingsChange(category, numberOfQuestions, difficulty));
-        // dispatch(fetchQuestions(category, numberOfQuestions, difficulty));
+        dispatch(settingsChange(category, numberOfQuestions, difficulty, choiceType));
     }
     
 }

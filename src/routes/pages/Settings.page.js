@@ -37,6 +37,12 @@ class SettingsPage extends React.Component {
 
     componentDidMount() {
         this.props.fetchCategory();
+        this.setState({
+            category: this.props.settings.category,
+            numOfQ: this.props.settings.numberOfQuestions,
+            difficulty: this.props.settings.difficulty,
+            choiceType: this.props.settings.choiceType
+        });
     }
 
     onInputChange(e) {
@@ -47,7 +53,7 @@ class SettingsPage extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        this.props.changeSettings(this.state.category, this.state.numOfQ, this.state.difficulty);
+        this.props.changeSettings(this.state.category, this.state.numOfQ, this.state.difficulty, this.state.choiceType);
         this.setState({ showModal: true });
     }
 
@@ -82,6 +88,11 @@ class SettingsPage extends React.Component {
                                     <option value="easy">Easy</option>
                                     <option value="medium">Medium</option>
                                     <option value="difficult">Difficult</option>
+                                </Select>
+                                <Label htmlFor="choiceType">Question Type</Label>
+                                <Select name="choiceType" onChange={ (e) => this.onInputChange(e) } defaultValue={ this.props.settings.choiceType }>
+                                    <option value="multiple">Multiple Choice</option>
+                                    <option value="boolean">True or False</option>
                                 </Select>
                                 <Label htmlFor="numOfQ">Number of Questions</Label>
                                 <Input name="numOfQ" onChange={ (e) => this.onInputChange(e) } defaultValue={ this.props.settings.numberOfQuestions }/>

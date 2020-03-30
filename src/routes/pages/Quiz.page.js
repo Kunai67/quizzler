@@ -68,7 +68,7 @@ class QuizPage extends React.Component {
     componentDidMount() {
         // FETCH QUESTIONS ONLY IF QUIZ HAS STARTED
         if(this.props.state.isStarted) {
-            this.props.fetchQuestions(this.props.settings.selectedCategory, this.props.settings.numberOfQuestions, this.props.settings.difficulty);
+            this.props.fetchQuestions(this.props.settings.selectedCategory, this.props.settings.numberOfQuestions, this.props.settings.difficulty, this.props.settings.choiceType);
             this.setState({ isFetching: true });
         }
     }
