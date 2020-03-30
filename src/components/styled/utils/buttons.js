@@ -12,6 +12,10 @@ const DefaultButton = styled.button`
     font-weight: bold;
     margin: 0 1em;
 
+    &:focus {
+        outline: 0 !important;
+    }
+
     @media screen and (max-width: 425px) {
         font-size: 1.5em;
     }

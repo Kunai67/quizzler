@@ -8,6 +8,7 @@ import { WHITE, BLACK } from '../../../res/color-palette';
 import { MainHeading } from '../../styled/utils/headings';
 
 const StyledMainHeading = styled(MainHeading)`
+    font-size: 8em;
     margin-bottom: -0.25em;
 `;
 
@@ -51,7 +52,7 @@ const Input = styled.input`
 `;
 
 const Div = styled.div`
-    margin-top: 3em;
+    margin-top: 2em;
 `;
 
 export {
