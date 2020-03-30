@@ -19,6 +19,7 @@ import {
 } from '../../components/styled/pages/settings.components';
 import { RedirectButton } from '../../components/functional/RedirectButton';
 import LoadingScreen from '../../components/functional/LoadingScreen';
+import Modal from '../../components/functional/Modal';
 
 
 class SettingsPage extends React.Component {
@@ -27,7 +28,7 @@ class SettingsPage extends React.Component {
 
         this.state = {
             categories: this.props.categories,
-            willRedirect: false
+            showModal: false
         }
 
         this.onInputChange = this.onInputChange.bind(this);
@@ -47,7 +48,7 @@ class SettingsPage extends React.Component {
     onSubmit(e) {
         e.preventDefault();
         this.props.changeSettings(this.state.category, this.state.numOfQ, this.state.difficulty);
-        this.setState({ willRedirect: true });
+        this.setState({ showModal: true });
     }
 
     render() {
@@ -87,10 +88,17 @@ class SettingsPage extends React.Component {
                                 
                                 <Div>
                                     <DefaultButton bg={ BG } color={ BLACK } onClick={ (e) => { this.onSubmit(e) } }>Save</DefaultButton>
-                                    <RedirectButton to="/" bg={ ACCENT } color={ BLACK }>Cancel</RedirectButton>
+                                    <RedirectButton to="/" bg={ ACCENT } color={ BLACK }>Back to Home</RedirectButton>
                                 </Div>
                             </FlexForm>
                         </div>
+                        <Modal 
+                        isShown={ this.state.showModal } 
+                        headerText="Settings Updated" type="success"
+                        toggleVisibility={() => this.setState({ showModal: false })}
+                        >
+                            Your settings has been updated successfully.
+                        </Modal>
                     </DefaultContainer>
                 ) 
             }
@@ -105,7 +113,7 @@ const mapStateToProps = state => {
     return {
         categories: state.gameData.serverData.categories,
         settings: state.gameSettings,
-        isFetching: state.gameData.serverData.isFetching
+        isFetching: state.gameData.serverData.isFetching,
     }
 };
 

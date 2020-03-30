@@ -13,10 +13,8 @@ import { DefaultContainer } from '../../components/styled/utils/containers';
 import { MainHeading } from '../../components/styled/utils/headings';
 import { RedirectButton } from '../../components/functional/RedirectButton';
 import { WelcomeHeading } from '../../components/styled/pages/start.components';
-import Modal from '../../components/functional/Modal';
 
 
-// TODO: Transfer modal to settings page
 class StartPage extends React.Component {
     constructor(props) {
         super(props)
@@ -47,22 +45,9 @@ class StartPage extends React.Component {
                     <RedirectButton bg={ PRIMARY } to='/quiz' onClick={ this.handleStart }>Start Game</RedirectButton>
                     <RedirectButton bg={ SECONDARY } to='/settings'>Settings</RedirectButton>
                 </div>
-                <Modal 
-                isShown={ this.state.showModal } 
-                headerText="Settings Updated" type="success"
-                toggleVisibility={() => this.setState({ showModal: false })}
-                >
-                    Your settings has been updated successfully.
-                </Modal>
             </DefaultContainer>
         )
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        isSettingsModified: state.gameSettings.isModified
-    }
-}
-
-export default connect(mapStateToProps, { updateStatus, clearGameData, requestQuestions })(StartPage);
+export default connect(null, { updateStatus, clearGameData, requestQuestions })(StartPage);
