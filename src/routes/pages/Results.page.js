@@ -1,12 +1,17 @@
 // NPM IMPORTS
 import React from 'react';
 import { connect } from 'react-redux';
+import {
+    FacebookShareButton,
+    FacebookMessengerShareButton,
+    TwitterShareButton
+} from 'react-share';
 
 // RESOURCES IMPORTS
 import { WHITE, BG } from '../../res/color-palette';
 import FBIconLink from '../../res/svg/facebook.svg';
 import TwitterIconLink from '../../res/svg/twitter.svg';
-import IGIconLink from '../../res/svg/instagram.svg';
+import MsgrIconLink from '../../res/svg/facebook-messenger.svg';
 
 // COMPONENT IMPORTS
 import { DefaultContainer } from '../../components/styled/utils/containers';
@@ -31,7 +36,7 @@ class ResultsPage extends React.Component {
         this.setState({
             passed: userPassed
         })
-        document.title = userPassed ? "Congrats! You passed! 🤩" : "Oh no, you failed! 😫"
+        document.title = userPassed ? "Congrats! You passed! 🤩" : "Oh no, you failed! 😫";
     }
 
     render() {
@@ -56,9 +61,15 @@ class ResultsPage extends React.Component {
         
                         <P>Share on:</P>
                         <SocialContainer>
-                            <SocialIcon src={FBIconLink} alt="Facebook"/>
-                            <SocialIcon src={TwitterIconLink} alt="Twitter"/>
-                            <SocialIcon src={IGIconLink} alt="Instagram"/>
+                            <FacebookShareButton url={window.location.hostname}>
+                                <SocialIcon src={FBIconLink} alt="Facebook"/>
+                            </FacebookShareButton>
+                            <FacebookMessengerShareButton>
+                                <SocialIcon src={MsgrIconLink} alt="Facebook"/> 
+                            </FacebookMessengerShareButton>
+                            <TwitterShareButton>
+                                <SocialIcon src={TwitterIconLink} alt="Twitter"/>
+                            </TwitterShareButton>
                         </SocialContainer>
                     </div>
                 </DefaultContainer>
