@@ -33,20 +33,18 @@ import Modal from '../../components/functional/Modal';
 import ErrorScreen from '../../components/functional/ErrorScreen';
 
 function ModalSwitcher(props) {
+    let modalSettings = {
+        headerText: props.isCorrect ? 'CORRECT!' : 'WRONG!',
+        type: props.isCorrect ? 'success' : 'error',
+        innerText: props.isCorrect ? 'Your answer is correct!' : `The correct answer is ${props.correctAnswer}`,
+    }
+
     if (props.isShown) {
-        if (props.isCorrect) {
-            return (
-            <Modal isShown="true" headerText="CORRECT!" type="success" toggleVisibility={props.setState}>
-                Your answer is correct!
-            </Modal>
-            )
-        } else {
-            return (
-            <Modal isShown="true" headerText="WRONG!" type="error" toggleVisibility={props.setState}>
-                The correct answer is {props.correctAnswer}
-            </Modal>
-            )
-        }
+        return (
+        <Modal isShown="true" headerText={modalSettings.headerText} type={modalSettings.type} toggleVisibility={props.setState}>
+            { modalSettings.innerText }
+        </Modal>
+        )
     } else {
         return <React.Fragment/>
     }

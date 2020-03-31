@@ -23,13 +23,42 @@ import Modal from '../../components/functional/Modal';
 import ErrorScreen from '../../components/functional/ErrorScreen';
 
 
+function ModalSwitcher(props) {
+    if (props.isShown) {
+        if (props.settingsUpdated) {
+            return (
+                <Modal 
+                isShown="true"
+                headerText="Settings Updated" type="success"
+                toggleVisibility={props.toggleVisibility}
+                >
+                    Your settings has been updated successfully.
+                </Modal>
+            )
+        } else {
+            return (
+                <Modal 
+                isShown="true"
+                headerText="Error!" type="error"
+                toggleVisibility={props.toggleVisibility}
+                >
+                    Number of Questions must be between 1 - 50
+                </Modal>
+            )
+        }
+    } else {
+        return <React.Fragment/>
+    }
+}
+
 class SettingsPage extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
             categories: this.props.categories,
-            showModal: false
+            showModal: false,
+            settingsUpdated: false,
         }
 
         this.onInputChange = this.onInputChange.bind(this);
@@ -39,7 +68,7 @@ class SettingsPage extends React.Component {
     componentDidMount() {
         this.props.fetchCategory();
         this.setState({
-            category: this.props.settings.category,
+            category: this.props.settings.selectedCategory,
             numOfQ: this.props.settings.numberOfQuestions,
             difficulty: this.props.settings.difficulty,
             choiceType: this.props.settings.choiceType
@@ -54,7 +83,12 @@ class SettingsPage extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        this.props.changeSettings(this.state.category, this.state.numOfQ, this.state.difficulty, this.state.choiceType);
+        if (this.state.numOfQ < 50 && this.state.numOfQ > 0) {
+            this.props.changeSettings(this.state.category, this.state.numOfQ, this.state.difficulty, this.state.choiceType);
+            this.setState({ settingsUpdated: true });
+        } else {
+            this.setState({ settingsUpdated: false });
+        }
         this.setState({ showModal: true });
     }
 
@@ -102,7 +136,7 @@ class SettingsPage extends React.Component {
                                     <option value="multiple">Multiple Choice</option>
                                     <option value="boolean">True or False</option>
                                 </Select>
-                                <Label htmlFor="numOfQ">Number of Questions</Label>
+                                <Label htmlFor="numOfQ">Number of Questions (Min: 1, Max: 50)</Label>
                                 <Input name="numOfQ" onChange={ (e) => this.onInputChange(e) } defaultValue={ this.props.settings.numberOfQuestions }/>
                                 
                                 <Div>
@@ -111,13 +145,11 @@ class SettingsPage extends React.Component {
                                 </Div>
                             </FlexForm>
                         </div>
-                        <Modal 
-                        isShown={ this.state.showModal } 
-                        headerText="Settings Updated" type="success"
+                        <ModalSwitcher
+                        isShown={this.state.showModal}
+                        settingsUpdated={this.state.settingsUpdated}
                         toggleVisibility={() => this.setState({ showModal: false })}
-                        >
-                            Your settings has been updated successfully.
-                        </Modal>
+                        />
                     </DefaultContainer>
                 ) 
             }
