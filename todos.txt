@@ -19,10 +19,9 @@ DONE:
 - Get Correct Answers and Number of Questions
 - Determine whether pass or failed
 
+DONE:
 3. Settings Page
 - Checking of input
-
-DONE:
 - Get Category from State
 - Change Category to State
 - Change Difficulty
