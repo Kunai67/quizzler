@@ -17,39 +17,56 @@ import {
     SocialContainer, SocialIcon, StyledMainHeading 
 } from '../../components/styled/pages/results.components';
 
-
-function ResultsPage(props) {
-    // NUMBER OF QUESTIONS CANNOT BE ZERO IF THE QUIZ HAS FINISHED
-    if (props.numberOfQuestions !== 0) {
-        return (
-            <DefaultContainer>
-                <div>
-                    <StyledMainHeading color={ WHITE }>Quizzler!</StyledMainHeading>
-                    <SubHeading color={ BG }>Results</SubHeading>
-                    <Div>
-                        <P>Finish Time</P>
-                        <P color={ BG }>{props.time.minutes} minutes, {props.time.seconds} seconds</P>
-                    </Div>
-                    <Div>
-                        <P>Correct Answers</P>
-                        <P color={ BG }>{ props.numberOfCorrectAnswers }/{ props.numberOfQuestions } Correct Answers</P>
-                    </Div>
+class ResultsPage extends React.Component {
+    constructor(props) {
+        super(props)
     
-                    <ResultSummary>{ (props.numberOfCorrectAnswers / props.numberOfQuestions) >= 0.5 ? "You Passed! Congrats!" : "Sorry, you failed." }</ResultSummary>
-                    <HomeLink to="/">Play Again?</HomeLink>
-    
-                    <P>Share on:</P>
-                    <SocialContainer>
-                        <SocialIcon src={FBIconLink} alt="Facebook"/>
-                        <SocialIcon src={TwitterIconLink} alt="Twitter"/>
-                        <SocialIcon src={IGIconLink} alt="Instagram"/>
-                    </SocialContainer>
-                </div>
-            </DefaultContainer>
-        ) 
+        this.state = {
+            passed: false
+        }
     }
-    else {
-        return <DirectAccessWarning/>;
+    
+    componentDidMount() {
+        let userPassed = ((this.props.numberOfCorrectAnswers / this.props.numberOfQuestions) >= 0.5);
+        this.setState({
+            passed: userPassed
+        })
+        document.title = userPassed ? "Congrats! You passed! 🤩" : "Oh no, you failed! 😫"
+    }
+
+    render() {
+        // NUMBER OF QUESTIONS CANNOT BE ZERO IF THE QUIZ HAS FINISHED
+        if (this.props.numberOfQuestions !== 0) {
+            return (
+                <DefaultContainer>
+                    <div>
+                        <StyledMainHeading color={ WHITE }>Quizzler!</StyledMainHeading>
+                        <SubHeading color={ BG }>Results</SubHeading>
+                        <Div>
+                            <P>Finish Time</P>
+                            <P color={ BG }>{this.props.time.minutes} minutes, {this.props.time.seconds} seconds</P>
+                        </Div>
+                        <Div>
+                            <P>Correct Answers</P>
+                            <P color={ BG }>{ this.props.numberOfCorrectAnswers }/{ this.props.numberOfQuestions } Correct Answers</P>
+                        </Div>
+        
+                        <ResultSummary>{ this.state.passed ? "You Passed! Congrats!" : "Sorry, you failed." }</ResultSummary>
+                        <HomeLink to="/">Play Again?</HomeLink>
+        
+                        <P>Share on:</P>
+                        <SocialContainer>
+                            <SocialIcon src={FBIconLink} alt="Facebook"/>
+                            <SocialIcon src={TwitterIconLink} alt="Twitter"/>
+                            <SocialIcon src={IGIconLink} alt="Instagram"/>
+                        </SocialContainer>
+                    </div>
+                </DefaultContainer>
+            ) 
+        }
+        else {
+            return <DirectAccessWarning/>;
+        }
     }
 }
 

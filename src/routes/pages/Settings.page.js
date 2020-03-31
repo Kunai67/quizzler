@@ -73,6 +73,7 @@ class SettingsPage extends React.Component {
             difficulty: this.props.settings.difficulty,
             choiceType: this.props.settings.choiceType
         });
+        document.title = "Quizzler - Settings";
     }
 
     onInputChange(e) {

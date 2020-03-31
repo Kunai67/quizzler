@@ -130,7 +130,7 @@ class QuizPage extends React.Component {
 
     handleSubmitAnswer(e) {
         this.setState({ showModal: true, correctAnswer: this.props.question.correct_answer });
-        this.setState({ isCorrect: [e.target.innerText === this.props.question.correct_answer] });
+        this.setState({ isCorrect: e.target.innerText === this.props.question.correct_answer });
     }
     
     // CONDITIONALLY RENDERS THE PAGE AND PREVENTS UNAUTHORIZED ACCESS

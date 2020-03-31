@@ -29,6 +29,7 @@ class StartPage extends React.Component {
     componentDidMount() {
         this.setState({showModal: this.props.isSettingsModified});
         this.props.clearGameData();
+        document.title = "Welcome to Quizzler!";
     }
 
     handleStart() {
