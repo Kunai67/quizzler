@@ -1,5 +1,3 @@
-import { bindActionCreators } from "redux";
-
 // REQUESTING QUESTIONS
 const FETCH_QUESTIONS_REQUEST = "FETCH_QUESTIONS_REQUEST";
 function requestQuestions() {
