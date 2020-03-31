@@ -11,7 +11,7 @@ import { BG, PRIMARY, SECONDARY } from '../../res/color-palette';
 // COMPONENT IMPORTS
 import { DefaultContainer } from '../../components/styled/utils/containers';
 import { MainHeading } from '../../components/styled/utils/headings';
-import { RedirectButton } from '../../components/functional/RedirectButton';
+import RedirectButton from '../../components/functional/RedirectButton';
 import { WelcomeHeading } from '../../components/styled/pages/start.components';
 
 

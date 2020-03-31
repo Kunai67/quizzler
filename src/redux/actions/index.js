@@ -1,3 +1,5 @@
+import { bindActionCreators } from "redux";
+
 // REQUESTING QUESTIONS
 const FETCH_QUESTIONS_REQUEST = "FETCH_QUESTIONS_REQUEST";
 function requestQuestions() {
@@ -24,7 +26,8 @@ function fetchQuestions(category, numberOfQuestions, difficulty, choiceType) {
                 .then(res => res.json())
                 .then(questions => {
                     dispatch(receiveQuestions(questions.results));
-                });
+                })
+                .catch(err => dispatch(onError(err.toString())));
     }
 }
 
@@ -101,7 +104,10 @@ function fetchCategory() {
                         receiveCategory([{id: 0, name: 'No Category'}]
                         .concat(categories.trivia_categories))
                     )
-                );
+                )
+                .catch(err => {
+                    dispatch(onError(err.toString()));
+                });
     }
 }
 
@@ -123,6 +129,15 @@ function clearGameData() {
     }
 }
 
+// ON ERROR
+const ON_ERROR = "ON_ERROR";
+function onError(error) {
+    return {
+        type: ON_ERROR,
+        error
+    }
+}
+
 export {
     FETCH_CATEGORY_REQUEST,
     FETCH_CATEGORY_SUCCESS,
@@ -134,6 +149,7 @@ export {
     MARK_WRONG,
     RECORD_TIME,
     CLEAR_GAME_DATA,
+    ON_ERROR,
 
     requestQuestions,
     fetchQuestions,
@@ -144,4 +160,5 @@ export {
     changeSettings,
     recordTime,
     clearGameData,
+    onError
 }

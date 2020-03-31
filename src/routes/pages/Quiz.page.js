@@ -30,6 +30,7 @@ import DirectAccessWarning from '../../components/functional/DirectAccessWarning
 import Timer from '../../components/functional/Timer';
 import LoadingScreen from '../../components/functional/LoadingScreen';
 import Modal from '../../components/functional/Modal';
+import ErrorScreen from '../../components/functional/ErrorScreen';
 
 function ModalSwitcher(props) {
     if (props.isShown) {
@@ -141,7 +142,11 @@ class QuizPage extends React.Component {
         if (this.props.state.isStarted) {
             // LOGIC FOR LOADING SCREEN
             if (this.props.isFetching) {
-                return <LoadingScreen />
+                if (this.props.errorMessage) {
+                    return <ErrorScreen />
+                } else {
+                    return <LoadingScreen />
+                }
             } else {
                 if (this.props.id > this.props.numberOfQuestions && this.props.numberOfQuestions > 0) {
                     this.props.updateStatus();
@@ -207,7 +212,8 @@ const mapStateToProps = state => {
         question: state.gameData.serverData.questions[i],
         state: state.gameData.gameState,
         settings: state.gameSettings,
-        isFetching: state.gameData.serverData.isFetching
+        isFetching: state.gameData.serverData.isFetching,
+        errorMessage: state.gameData.gameState.errorMessage
     }
 }
 

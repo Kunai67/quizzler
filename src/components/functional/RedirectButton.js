@@ -2,7 +2,7 @@ import React from 'react';
 import { DefaultButton } from '../styled/utils/buttons';
 import { useHistory } from 'react-router-dom';
 
-export function RedirectButton(props) {
+export default function RedirectButton(props) {
     const history = useHistory();
 
     return (

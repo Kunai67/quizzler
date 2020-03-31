@@ -17,9 +17,10 @@ import {
     StyledMainHeading, FlexForm, Label,
     Select, Input, Div
 } from '../../components/styled/pages/settings.components';
-import { RedirectButton } from '../../components/functional/RedirectButton';
+import RedirectButton from '../../components/functional/RedirectButton';
 import LoadingScreen from '../../components/functional/LoadingScreen';
 import Modal from '../../components/functional/Modal';
+import ErrorScreen from '../../components/functional/ErrorScreen';
 
 
 class SettingsPage extends React.Component {
@@ -58,7 +59,14 @@ class SettingsPage extends React.Component {
     }
 
     render() {
-        if (!this.props.isFetching) {
+        if (this.props.isFetching) {
+            if (this.props.errorMessage) {
+                return <ErrorScreen />;
+            } else {
+                return <LoadingScreen />;
+            }
+        }
+        else {
             if(this.state.willRedirect) {
                 return <Redirect to="/" />;
             } 
@@ -114,9 +122,6 @@ class SettingsPage extends React.Component {
                 ) 
             }
         }
-        else {
-            return <LoadingScreen />;
-        }
     }
 }
 
@@ -125,6 +130,7 @@ const mapStateToProps = state => {
         categories: state.gameData.serverData.categories,
         settings: state.gameSettings,
         isFetching: state.gameData.serverData.isFetching,
+        errorMessage: state.gameData.gameState.errorMessage
     }
 };
 
