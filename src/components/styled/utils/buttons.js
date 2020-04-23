@@ -21,7 +21,7 @@ const DefaultButton = styled.button`
     }
 
     @media screen and (min-width: 1440px) {
-        font-size: 3em;
+        font-size: 2em;
     }
 `;
 

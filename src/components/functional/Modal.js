@@ -59,6 +59,7 @@ const ModalContainer = styled.div`
     top: 0;
     left: 0%;
     background: rgba(0, 0, 0, 0.4);
+    text-align: center;
 `;
 
 const Container = styled.div`
@@ -75,12 +76,16 @@ const Header = styled.div`
 `;
 
 const HeaderText = styled.h2`
-    font-size: 3em;
+    font-size: 2.5em;
 `;
 
 const BodyText = styled.p`
     font-size: 3em;
     color: ${(props) => props.color};
+
+    @media screen and (max-width: 768px) {
+        font-size: 2em;
+    }
 `;
 
 const Body = styled.div`
