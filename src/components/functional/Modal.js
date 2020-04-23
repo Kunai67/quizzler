@@ -43,14 +43,10 @@ function Modal(props) {
 }
 
 const ModalButton = styled(DefaultButton)`
-    position: absolute;
-    left: 50%;
     bottom: 2em;
     color: ${ WHITE };
     background: ${(props) => props.bg}; 
     font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transform: translateX(-50%);
-    margin: 0;
 `;
 
 const ModalContainer = styled.div`
@@ -68,8 +64,7 @@ const ModalContainer = styled.div`
 const Container = styled.div`
     position: relative;
     background: ${ WHITE };
-    width: 50%;
-    height: 50%;
+    width: clamp(30em, 50%, 50em);
 `;
 
 const Header = styled.div`

@@ -1,5 +1,6 @@
 // NPM IMPORTS
 import React from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 // REDUX ACTION CREATORS
@@ -9,25 +10,24 @@ import { updateStatus, clearGameData, requestQuestions } from '../../redux/actio
 import { BG, PRIMARY, SECONDARY } from '../../res/color-palette';
 
 // COMPONENT IMPORTS
-import { DefaultContainer } from '../../components/styled/utils/containers';
+import { DefaultContainer, FlexContainer } from '../../components/styled/utils/containers';
 import { MainHeading } from '../../components/styled/utils/headings';
 import RedirectButton from '../../components/functional/RedirectButton';
 import { WelcomeHeading } from '../../components/styled/pages/start.components';
 
+const ButtonContainer = styled(FlexContainer)`
+    justify-content: center;
+    margin-top: 2rem;
+`;
 
 class StartPage extends React.Component {
     constructor(props) {
-        super(props)
-
-        this.state = {
-            showModal: false,
-        }
+        super(props);
 
         this.handleStart = this.handleStart.bind(this);
     }
 
     componentDidMount() {
-        this.setState({showModal: this.props.isSettingsModified});
         this.props.clearGameData();
         document.title = "Welcome to Quizzler!";
     }
@@ -43,8 +43,10 @@ class StartPage extends React.Component {
                 <div>
                     <WelcomeHeading color={PRIMARY}>Welcome to</WelcomeHeading>
                     <MainHeading>Quizzler!</MainHeading>
-                    <RedirectButton bg={ PRIMARY } to='/quiz' onClick={ this.handleStart }>Start Game</RedirectButton>
-                    <RedirectButton bg={ SECONDARY } to='/settings'>Settings</RedirectButton>
+                    <ButtonContainer>
+                        <RedirectButton bg={ PRIMARY } to='/quiz' onClick={ this.handleStart }>Start Game</RedirectButton>
+                        <RedirectButton bg={ SECONDARY } to='/settings'>Settings</RedirectButton>
+                    </ButtonContainer>
                 </div>
             </DefaultContainer>
         )

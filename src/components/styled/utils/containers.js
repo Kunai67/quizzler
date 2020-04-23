@@ -12,6 +12,12 @@ const DefaultContainer = styled.div`
     padding: 1em 0;
 `;
 
+const FlexContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
+
 export {
+    FlexContainer,
     DefaultContainer
 }

@@ -10,7 +10,7 @@ const DefaultButton = styled.button`
     color: ${ props => props.color ? props.color : WHITE };
     font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
-    margin: 0 1em;
+    margin: 0 1em 1em 1em;
 
     &:focus {
         outline: 0 !important;

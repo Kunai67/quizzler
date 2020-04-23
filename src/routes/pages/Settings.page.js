@@ -13,10 +13,10 @@ import { WHITE, BG, ACCENT, BLACK } from '../../res/color-palette';
 import { DefaultContainer } from '../../components/styled/utils/containers';
 import { DefaultButton } from '../../components/styled/utils/buttons';
 import { SubHeading } from '../../components/styled/utils/headings';
-import {
-    StyledMainHeading, FlexForm, Label,
-    Select, Input, Div
-} from '../../components/styled/pages/settings.components';
+
+import { StyledMainHeading, FlexForm, Label,Select, Input, Div } 
+from '../../components/styled/pages/settings.components';
+
 import RedirectButton from '../../components/functional/RedirectButton';
 import LoadingScreen from '../../components/functional/LoadingScreen';
 import Modal from '../../components/functional/Modal';
@@ -113,8 +113,6 @@ class SettingsPage extends React.Component {
                             <SubHeading color={ BG }>Settings</SubHeading>
                             <FlexForm>
                                 <Label htmlFor="category">Category</Label>
-                                {/* RENDERS A SELECT ELEMENT WITH OPTIONS 
-                                DEPENDING ON CATEGORIES THAT HAS BEEN RETRIEVED FROM THE SERVER*/}
                                 <Select name="category" onChange={ (e) => this.onInputChange(e) } defaultValue={ this.props.settings.selectedCategory }>
                                     {
                                         this.props.categories.map(category => 
@@ -137,7 +135,7 @@ class SettingsPage extends React.Component {
                                     <option value="multiple">Multiple Choice</option>
                                     <option value="boolean">True or False</option>
                                 </Select>
-                                <Label htmlFor="numOfQ">Number of Questions (Min: 1, Max: 50)</Label>
+                                <Label htmlFor="numOfQ">Number of Questions</Label>
                                 <Input name="numOfQ" onChange={ (e) => this.onInputChange(e) } defaultValue={ this.props.settings.numberOfQuestions }/>
                                 
                                 <Div>
