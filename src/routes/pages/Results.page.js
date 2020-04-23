@@ -43,7 +43,7 @@ class ResultsPage extends React.Component {
         // NUMBER OF QUESTIONS CANNOT BE ZERO IF THE QUIZ HAS FINISHED
         if (this.props.numberOfQuestions !== 0) {
             return (
-                <DefaultContainer>
+                <DefaultContainer bg={ this.state.passed ? "darkgreen" : "darkred" }>
                     <div>
                         <StyledMainHeading color={ WHITE }>Quizzler!</StyledMainHeading>
                         <SubHeading color={ BG }>Results</SubHeading>
