@@ -19,7 +19,6 @@ function receiveQuestions(data) {
 function fetchQuestions(category, numberOfQuestions, difficulty, choiceType) {
     return function (dispatch) {
         dispatch(requestQuestions());
-        console.log(`https://opentdb.com/api.php?category=${category}&amount=${numberOfQuestions}&difficulty=${difficulty}&type=${choiceType}`);
         return fetch(`https://opentdb.com/api.php?category=${category}&amount=${numberOfQuestions}&difficulty=${difficulty}&type=${choiceType}`)
                 .then(res => res.json())
                 .then(questions => {
